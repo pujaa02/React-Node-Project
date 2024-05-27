@@ -1,6 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./login.css";
-// import "../App.css";
 
 interface LoginFormProps {
   onLogin: (email: string, password: string) => void;

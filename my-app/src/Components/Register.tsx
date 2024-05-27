@@ -1,12 +1,36 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./register.css";
-// import "../App.css";
 
-const Register = () => {
+interface RegisterFormProps {
+  onRegister: (RegisterData: RegisterData) => void;
+}
+interface RegisterData {
+  fname: string;
+  lname: string;
+  email: string;
+}
+const Register: React.FC<RegisterFormProps> = ({ onRegister }) => {
+  const [RegData, setRegData] = useState<RegisterData>({
+    fname: "",
+    lname: "",
+    email: "",
+  });
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setRegData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+  const handleRegister = (e: FormEvent) => {
+    e.preventDefault();
+    onRegister(RegData);
+  };
   return (
     <div className="container">
-      {/* <form onSubmit={handleSubmit} className="form"> */}
-      <form className="form">
+      <form onSubmit={handleRegister} className="form">
         <fieldset className="fieldset form-control">
           <legend>Register</legend>
           <div className="form-div">
@@ -15,8 +39,8 @@ const Register = () => {
               type="text"
               id="fname"
               name="fname"
-              // value={fname}
-              // onChange={handleFnameChange}
+              value={RegData.fname}
+              onChange={handleChange}
               className="form-control"
               required
             />
@@ -27,8 +51,8 @@ const Register = () => {
               type="text"
               id="lname"
               name="lname"
-              // value={lname}
-              // onChange={handleLnameChange}
+              value={RegData.lname}
+              onChange={handleChange}
               className="form-control"
               required
             />
@@ -39,64 +63,11 @@ const Register = () => {
               type="text"
               id="email"
               name="email"
-              // value={email}
-              // onChange={handleEmailChange}
+              value={RegData.email}
+              onChange={handleChange}
               className="form-control"
               required
             />
-          </div>
-          <div className="form-div">
-            <label htmlFor="address">Address :</label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              // value={address}
-              // onChange={handleAddressChange}
-              className="form-control"
-              required
-            />
-          </div>
-          <div className="form-div">
-            <label htmlFor="dob">Date-of-Birth :</label>
-            <input
-              type="Date"
-              id="dob"
-              name="dob"
-              // value={dob}
-              // onChange={handleDobChange}
-              className="form-control"
-              required
-            />
-          </div>
-          <div className="gender-control">
-            <p>Gender : </p>
-            <div className="genderdiv">
-              <input
-                type="radio"
-                id="male"
-                name="gender"
-                className="form-control"
-                required
-              />
-              <label htmlFor="male">Male</label>
-              <input
-                type="radio"
-                id="female"
-                name="gender"
-                className="form-control"
-                required
-              />
-                <label htmlFor="female">Female</label>
-              <input
-                type="radio"
-                id="other"
-                name="gender"
-                className="form-control"
-                required
-              />
-                <label htmlFor="other">Other</label>
-            </div>
           </div>
           <button type="submit" className="btn btn-primary">
             Register
@@ -106,5 +77,4 @@ const Register = () => {
     </div>
   );
 };
-
 export default Register;
