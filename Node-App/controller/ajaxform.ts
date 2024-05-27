@@ -8,7 +8,9 @@ import parser from "body-parser";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 route.use(parser.json());
 route.use(parser.urlencoded({ extended: false }));
-const urlencodedParser = parser.urlencoded({ extended: false });
+// const urlencodedParser = parser.urlencoded({ extended: false });
+import sequelize from "../models/sequalize";
+import Employee from "./form.controller";
 
 import get_user from "./ajaxinsertupdate/get_user";
 import get_emp from "./ajaxinsertupdate/get_emp_det"
@@ -28,14 +30,14 @@ import pre from "./ajaxinsertupdate/pre";
 // route.get("/ref", checkAuth, ref);
 // route.get("/pre", checkAuth, pre);
 
-route.get("/users", get_user);
-route.get("/emp", get_emp);
-route.get("/edu", edu_det);
-route.get("/work", work_exp);
-route.get("/lan", lan);
-route.get("/tech", techno);
-route.get("/ref", ref);
-route.get("/pre", pre);
+// route.get("/users", get_user);
+// route.get("/emp", get_emp);
+// route.get("/edu", edu_det);
+// route.get("/work", work_exp);
+// route.get("/lan", lan);
+// route.get("/tech", techno);
+// route.get("/ref", ref);
+// route.get("/pre", pre);
 
 interface FormData {
   fname: string;
@@ -177,27 +179,15 @@ route.post(
     // pre[4] = data.curctc;
     // pre[5] = data.depa;
 
-    const values = [
-      fname,
-      lname,
-      designation,
-      email,
-      phone,
-      gender,
-      rel_status,
-      address1,
-      address2,
-      city,
-      state,
-      zip,
-      bd,
-    ];
 
-    let emp_detail: number = await con.insert(`INSERT INTO emp_details (fname, lname, designation, email, phone, gender, rel_status, address1, address2, city, state, zipcode, bd) VALUES (?)`, [values]);
-    console.log(emp_detail);
+    let datainserted = await Employee.create({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zip: zip, bd: bd });
 
-    id = emp_detail;
-    console.log(id);
+
+    // let emp_detail: number = await con.insert(`INSERT INTO emp_details (fname, lname, designation, email, phone, gender, rel_status, address1, address2, city, state, zipcode, bd) VALUES (?)`, [values]);
+    // console.log(emp_detail);
+
+    // id = emp_detail;
+    // console.log(id);
 
     // const len: number = data.board_name.length;
 

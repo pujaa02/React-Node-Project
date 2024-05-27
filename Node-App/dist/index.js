@@ -11,6 +11,7 @@ const router_1 = __importDefault(require("./routes/router"));
 dotenv_1.default.config();
 let port = process.env.PORT;
 const cors_1 = __importDefault(require("cors"));
+// import sequelize from "./models/sequalize";
 app.use((0, cookie_parser_1.default)());
 // app.set("view engine", "ejs");
 // app.use(express.static("public"));

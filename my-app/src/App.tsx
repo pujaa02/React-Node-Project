@@ -1,8 +1,9 @@
 import React from "react";
-import Login from "./Components/Login";
 import "./App.css";
-import Register from "./Components/Register";
-import Form from "./Components/Form";
+import Login from "./Components/Login/Login";
+import Register from "./Components/Register/Register";
+import Form from "./Components/Form/Form";
+import { BrowserRouter as Router, Routes, Route, useNavigate, NavigateFunction } from "react-router-dom";
 
 interface ApplicationFormData {
   fname: string;
@@ -25,20 +26,14 @@ interface RegisterData {
   email: string;
 }
 const App: React.FC = () => {
+  let navigate: NavigateFunction = useNavigate();
   const handleLogin = (email: string, password: string) => {
     console.log("Email:", email);
     console.log("Password:", password);
+    navigate("/form");
   };
   const handleFormSubmit = (formData: ApplicationFormData) => {
     console.log("Form Data:", formData);
-    // fetch("http://localhost:3036/submit")
-    //   .then(res => res.json());
-    // .then(res=>)
-    // fetch('http://localhost:3036/submit', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ formData })
-    // });
     fetch('http://localhost:3036/submit', {
       method: 'POST',
       headers: {
@@ -55,14 +50,18 @@ const App: React.FC = () => {
   };
   const handleRegister = (registerdata: RegisterData) => {
     console.log("Register Data : ", registerdata);
-
+    navigate("/login");
   }
   return (
+
     <div className="App">
-      {/* <Login onLogin={handleLogin} /> */}
-      {/* <Register onRegister={handleRegister} /> */}
-      <Form onSubmit={handleFormSubmit} />
+      <Routes>
+        <Route path="/login" element={<Login onLogin={handleLogin} />}></Route>
+        <Route path="/register" element={<Register onRegister={handleRegister} />}></Route>
+        <Route path="/form" element={<Form onSubmit={handleFormSubmit} />}></Route>
+      </Routes>
     </div>
+
   );
 };
 

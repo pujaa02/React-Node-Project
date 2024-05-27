@@ -28,36 +28,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 let route = express.Router();
-// import checkAuth from "../middlewares/checkauth";
-const database_1 = __importDefault(require("../models/database"));
 const body_parser_1 = __importDefault(require("body-parser"));
 route.use(body_parser_1.default.json());
 route.use(body_parser_1.default.urlencoded({ extended: false }));
-const urlencodedParser = body_parser_1.default.urlencoded({ extended: false });
-const get_user_1 = __importDefault(require("./ajaxinsertupdate/get_user"));
-const get_emp_det_1 = __importDefault(require("./ajaxinsertupdate/get_emp_det"));
-const get_edu_det_1 = __importDefault(require("./ajaxinsertupdate/get_edu_det"));
-const work_exp_1 = __importDefault(require("./ajaxinsertupdate/work_exp"));
-const language_1 = __importDefault(require("./ajaxinsertupdate/language"));
-const techno_1 = __importDefault(require("./ajaxinsertupdate/techno"));
-const ref_1 = __importDefault(require("./ajaxinsertupdate/ref"));
-const pre_1 = __importDefault(require("./ajaxinsertupdate/pre"));
-// route.get("/users", checkAuth, get_user);
-// route.get("/emp", checkAuth, get_emp);
-// route.get("/edu", checkAuth, edu_det);
-// route.get("/work", checkAuth, work_exp);
-// route.get("/lan", checkAuth, lan);
-// route.get("/tech", checkAuth, techno);
-// route.get("/ref", checkAuth, ref);
-// route.get("/pre", checkAuth, pre);
-route.get("/users", get_user_1.default);
-route.get("/emp", get_emp_det_1.default);
-route.get("/edu", get_edu_det_1.default);
-route.get("/work", work_exp_1.default);
-route.get("/lan", language_1.default);
-route.get("/tech", techno_1.default);
-route.get("/ref", ref_1.default);
-route.get("/pre", pre_1.default);
+const form_controller_1 = __importDefault(require("./form.controller"));
 // route.get("/inuajax", checkAuth, (req: Request, res: Response) => {
 //   res.render("ajaxinup/home");
 // });
@@ -115,25 +89,11 @@ route.post("/submit", async (req, res) => {
     // pre[3] = data.exctc;
     // pre[4] = data.curctc;
     // pre[5] = data.depa;
-    const values = [
-        fname,
-        lname,
-        designation,
-        email,
-        phone,
-        gender,
-        rel_status,
-        address1,
-        address2,
-        city,
-        state,
-        zip,
-        bd,
-    ];
-    let emp_detail = await database_1.default.insert(`INSERT INTO emp_details (fname, lname, designation, email, phone, gender, rel_status, address1, address2, city, state, zipcode, bd) VALUES (?)`, [values]);
-    console.log(emp_detail);
-    id = emp_detail;
-    console.log(id);
+    let datainserted = await form_controller_1.default.create({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zip: zip, bd: bd });
+    // let emp_detail: number = await con.insert(`INSERT INTO emp_details (fname, lname, designation, email, phone, gender, rel_status, address1, address2, city, state, zipcode, bd) VALUES (?)`, [values]);
+    // console.log(emp_detail);
+    // id = emp_detail;
+    // console.log(id);
     // const len: number = data.board_name.length;
     // for (let i = 0; i < len; i++) {
     //   const eduValues = [

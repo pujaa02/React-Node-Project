@@ -1,14 +1,9 @@
 .container {
-  width: 450px;
+  width: 350px;
   padding: 20px;
   border: 1px solid #ced4da;
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: #ffffff;
-}
-
-fieldset {
-  padding: 20px;
-  border-radius: 5px;
 }
 
 legend {
@@ -26,11 +21,6 @@ legend {
   font-weight: bold;
 }
 
-p {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
 .form .form-div input {
   width: 100%;
   padding: 8px;
@@ -38,34 +28,31 @@ p {
 }
 
 .form .btn {
-  width: 100%;
+  /* width: 100%; */
   padding: 10px;
   background-color: #007bff;
   color: #ffffff;
   border: none;
+  font-size: 15px;
+  font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
+  margin: 0 0 10px 8rem;
 }
 
 .form .btn:hover {
   background-color: #0056b3;
 }
-
-.gender-control {
-  margin-bottom: 20px;
+h2 {
+  text-align: center;
+  color: red;
 }
-
-.gender-control label {
+.flex {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.genderdiv {
-  display: flex;
-}
-
-.gender-control input {
-  /* width: 100%; */
-  padding: 8px;
-  margin-left: 8px;
-  box-sizing: border-box;
+.flex a {
+  text-decoration: none;
 }

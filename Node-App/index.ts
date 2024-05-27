@@ -6,6 +6,9 @@ import main from "./routes/router";
 dotenv.config();
 let port = process.env.PORT;
 import cors from "cors";
+// import sequelize from "./models/sequalize";
+
+
 
 app.use(cookieParser());
 // app.set("view engine", "ejs");
