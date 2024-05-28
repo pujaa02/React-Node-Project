@@ -26,3 +26,9 @@
 #btn-act:hover {
   background-color: rgb(230, 62, 62);
 }
+#error {
+  margin-top: 40px;
+  color: green;
+  font-size: 18px;
+  font-weight: bold;
+}

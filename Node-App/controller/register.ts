@@ -79,6 +79,19 @@ route.get("/checktime/:actcode", async (req: Request, res: Response) => {
     const finalres = result?.dataValues
     res.json({ result: finalres })
 })
-
+let count: number;
+route.get("/deleteuser/:id", async (req: Request, res: Response) => {
+    console.log(count);
+    if (count == undefined) {
+        const user_id: string = req.params.id;
+        let result = await User.destroy({ where: { user_id: user_id } })
+        console.log(result, "deleted");
+        count = count + 1;
+        res.json({ msg: "User Deleted !!" })
+    } else {
+        console.log("fired");
+        res.json({ msg: "User not Exist !!" })
+    }
+})
 
 export default route;
