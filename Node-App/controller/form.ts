@@ -96,13 +96,6 @@ interface FormData {
 interface IStringArray extends Array<string | number | boolean> { }
 
 
-// route.get("/inuajax", checkAuth, (req: Request, res: Response) => {
-//   res.render("ajaxinup/home");
-// });
-// route.get("/update", checkAuth, (req: Request, res: Response) => {
-//   res.render("ajaxinup/fetchuser");
-// });
-
 route.post(
   "/submit",
 
@@ -180,7 +173,7 @@ route.post(
     // pre[5] = data.depa;
 
 
-    let datainserted = await Employee.create({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zip: zip, bd: bd });
+    let datainserted = await Employee.create({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zipcode: zip, bd: bd });
 
 
     // let emp_detail: number = await con.insert(`INSERT INTO emp_details (fname, lname, designation, email, phone, gender, rel_status, address1, address2, city, state, zipcode, bd) VALUES (?)`, [values]);

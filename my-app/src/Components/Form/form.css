@@ -23,6 +23,7 @@ legend {
   margin-top: 8px;
   padding: 10px;
   font-weight: 500;
+  /* margin-left: -5px; */
 }
 .form-gender label {
   padding-right: 10px;

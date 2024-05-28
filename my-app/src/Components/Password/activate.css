@@ -1,0 +1,28 @@
+.container-activate {
+  background-color: rgb(194, 129, 129);
+  width: 600px;
+  height: 250px;
+  text-align: center;
+  padding: 20px;
+}
+#activate-p {
+  margin-top: 20px;
+  font-size: 16px;
+  color: blueviolet;
+  margin-bottom: 3rem;
+}
+#btn-act {
+  margin-top: 2rem;
+  width: 180px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: 1px solid red;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
+#btn-act:hover {
+  background-color: rgb(230, 62, 62);
+}

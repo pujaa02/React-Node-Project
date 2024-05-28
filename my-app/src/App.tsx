@@ -1,9 +1,12 @@
 import React from "react";
+import axios from "axios";
+import { BrowserRouter as Router, Routes, Route, useNavigate, NavigateFunction } from "react-router-dom";
 import "./App.css";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import Form from "./Components/Form/Form";
-import { BrowserRouter as Router, Routes, Route, useNavigate, NavigateFunction } from "react-router-dom";
+import Activate from "./Components/Password/Activate";
+import Password from "./Components/Password/Password";
 
 interface ApplicationFormData {
   fname: string;
@@ -25,40 +28,82 @@ interface RegisterData {
   lname: string;
   email: string;
 }
+interface PassData {
+  pass: string;
+  repass: string;
+}
+
 const App: React.FC = () => {
   let navigate: NavigateFunction = useNavigate();
   const handleLogin = (email: string, password: string) => {
-    console.log("Email:", email);
-    console.log("Password:", password);
     navigate("/form");
   };
   const handleFormSubmit = (formData: ApplicationFormData) => {
-    console.log("Form Data:", formData);
-    fetch('http://localhost:3036/submit', {
-      method: 'POST',
+    axios({
+      url: "http://localhost:3036/submit",
+      method: "POST",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
+      data: JSON.stringify({
         formData
-      })
+      }),
     })
-      .then(res => res.json())
-      .then(data => console.log(data))
-    // .catch(err => console.log(err);
+      .then(async (res) => {
+        let result = await res.data;
+      })
+      .catch((err) => console.log(err));
   };
-  const handleRegister = (registerdata: RegisterData) => {
-    console.log("Register Data : ", registerdata);
+
+  const handlePassSubmit = (PassData: PassData) => {
+    const actcode: string = (window.location.pathname).substring(10)
+    axios({
+      url: `http://localhost:3036/password/${actcode}`,
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({
+        PassData
+      }),
+    })
+      .then(async (res) => {
+        // let result = await res.data;
+      })
+      .catch((err) => console.log(err));
     navigate("/login");
   }
+  const handleRegister = (registerdata: RegisterData) => {
+    axios({
+      url: "http://localhost:3036/register",
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({
+        registerdata
+      }),
+    })
+      .then(async (res) => {
+        let result: { user_id: string; actcode: string; current_time: Date } = await res.data;
+        let actcode = result.actcode;
+        navigate(`/activate/${actcode}`);
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
 
     <div className="App">
       <Routes>
         <Route path="/login" element={<Login onLogin={handleLogin} />}></Route>
-        <Route path="/register" element={<Register onRegister={handleRegister} />}></Route>
+        <Route path="/" element={<Register onRegister={handleRegister} />}></Route>
         <Route path="/form" element={<Form onSubmit={handleFormSubmit} />}></Route>
+        <Route path="/activate/:actcode" element={<Activate />}></Route>
+        <Route path="/password/:actcode" element={<Password onPasssubmit={handlePassSubmit} />}></Route>
       </Routes>
     </div>
 

@@ -7,8 +7,8 @@ const sequelize_1 = require("sequelize");
 const sequalize_1 = __importDefault(require("../models/sequalize"));
 const sequelize_2 = require("sequelize");
 const phoneValidationRegex = /\d{3}-\d{3}-\d{4}/;
-const Employee = sequalize_1.default.define("emp_detail", {
-    emp_id: {
+const User = sequalize_1.default.define("users", {
+    user_id: {
         type: sequelize_1.INTEGER,
         allowNull: false,
         autoIncrement: true,
@@ -22,11 +22,9 @@ const Employee = sequalize_1.default.define("emp_detail", {
         type: sequelize_2.DataTypes.STRING,
         allowNull: false,
     },
-    designation: {
-        type: sequelize_2.DataTypes.STRING,
-    },
     email: {
         type: sequelize_2.DataTypes.STRING,
+        allowNull: false,
     },
     phone: {
         type: sequelize_2.DataTypes.STRING,
@@ -39,28 +37,24 @@ const Employee = sequalize_1.default.define("emp_detail", {
     },
     gender: {
         type: sequelize_2.DataTypes.STRING,
-    },
-    rel_status: {
-        type: sequelize_2.DataTypes.STRING,
-    },
-    address1: {
-        type: sequelize_2.DataTypes.STRING,
-    },
-    address2: {
-        type: sequelize_2.DataTypes.STRING,
-    },
-    city: {
-        type: sequelize_2.DataTypes.STRING,
-    },
-    state: {
-        type: sequelize_2.DataTypes.STRING,
-    },
-    zipcode: {
-        type: sequelize_2.DataTypes.STRING,
+        allowNull: false,
     },
     bd: {
         type: sequelize_2.DataTypes.DATEONLY,
+        allowNull: false,
+    },
+    password: {
+        type: sequelize_2.DataTypes.STRING,
+    },
+    access_key: {
+        type: sequelize_2.DataTypes.STRING,
+    },
+    isdeleted: {
+        type: sequelize_2.DataTypes.STRING,
+    },
+    deleted_at: {
+        type: sequelize_2.DataTypes.DATE,
     },
 });
-exports.default = Employee;
-//# sourceMappingURL=form.controller.js.map
+exports.default = User;
+//# sourceMappingURL=user.controller.js.map

@@ -57,7 +57,7 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
         </button>
 
         <div className="flex">
-          <p>Don't have an Acoount? <Link to="/register">Register</Link></p>
+          <p>Don't have an Acoount? <Link to="/">Register</Link></p>
         </div>
       </form>
     </div>

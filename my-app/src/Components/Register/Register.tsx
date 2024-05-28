@@ -105,38 +105,46 @@ const Register: React.FC<RegisterFormProps> = ({ onRegister }) => {
               required
             />
           </div>
-          <div className="form-gender">
+          <div className="formgender">
             <label >Gender:</label> <br />
-            <input
-              type="radio"
-              id="male"
-              name="gender"
-              value="male"
-              checked={RegData.gender === "male"}
-              onChange={handleChange}
-              className="form-control"
-            />
-            <label htmlFor="male">Male</label>
-            <input
-              type="radio"
-              id="female"
-              name="gender"
-              value="female"
-              onChange={handleChange}
-              checked={RegData.gender === "female"}
-              className="form-control"
-            />
-            <label htmlFor="female">Female</label>
-            <input
-              type="radio"
-              id="other"
-              name="gender"
-              value="other"
-              onChange={handleChange}
-              checked={RegData.gender === "other"}
-              className="form-control"
-            />
-            <label htmlFor="other">Other</label>
+            <div className="genderflex">
+              <div className="radio">
+                <input
+                  type="radio"
+                  id="male"
+                  name="gender"
+                  value="male"
+                  checked={RegData.gender === "male"}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+                <label htmlFor="male">Male</label>
+              </div>
+              <div className="radio">
+                <input
+                  type="radio"
+                  id="female"
+                  name="gender"
+                  value="female"
+                  onChange={handleChange}
+                  checked={RegData.gender === "female"}
+                  className="form-control"
+                />
+                <label htmlFor="female">Female</label>
+              </div>
+              <div className="radio">
+                <input
+                  type="radio"
+                  id="other"
+                  name="gender"
+                  value="other"
+                  onChange={handleChange}
+                  checked={RegData.gender === "other"}
+                  className="form-control"
+                />
+                <label htmlFor="other">Other</label>
+              </div>
+            </div>
           </div>
         </div>
 
