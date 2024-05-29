@@ -30,9 +30,11 @@ const express = __importStar(require("express"));
 let route = express.Router();
 const user_controller_1 = __importDefault(require("./user.controller"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 route.use(body_parser_1.default.json());
 route.use(body_parser_1.default.urlencoded({ extended: false }));
 ;
+let password;
 function createRandomString(length) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
@@ -78,25 +80,36 @@ route.get("/deleteuser/:id", async (req, res) => {
     res.json({ msg: "User Deleted !!" });
 });
 route.post("/password/:user_id/:actcode", async (req, res) => {
-    const PasswordData = req.body.PassData;
     const actcode = req.params.actcode;
     const user_id = req.params.user_id;
-    const { pass, repass } = PasswordData;
-    try {
-        const updatepass = await user_controller_1.default.update({ password: pass }, { where: { access_key: actcode, user_id: user_id } });
-        res.json({ msg: "Success" });
-    }
-    catch (error) {
-        res.json({ msg: "Something Went Wrong!!" });
-    }
+    const { pass, repass } = req.body.PassData;
+    bcryptjs_1.default.hash(pass, 7, async (error, hashedPassword) => {
+        if (error) {
+            console.log(error);
+        }
+        try {
+            const updatepass = await user_controller_1.default.update({ password: hashedPassword }, { where: { access_key: actcode, user_id: user_id } });
+            res.json({ msg: "Success" });
+        }
+        catch (error) {
+            res.json({ msg: "Something Went Wrong!!" });
+        }
+    });
 });
 route.get("/checkuser/:email/:pass", async (req, res) => {
     const email = req.params.email;
     const pass = req.params.pass;
     try {
-        const result = await user_controller_1.default.findOne({ where: { email: email, password: pass } });
+        const result = await user_controller_1.default.findOne({ where: { email: email } });
         if (result?.dataValues) {
-            res.json({ msg: "Success" });
+            const dbpass = result?.dataValues;
+            let isPassSame = await bcryptjs_1.default.compare(pass, dbpass.password);
+            if (isPassSame === true) {
+                res.json({ msg: "Success" });
+            }
+            else {
+                res.json({ msg: "wrong Data" });
+            }
         }
         else {
             res.json({ msg: "wrong Data" });
@@ -107,4 +120,7 @@ route.get("/checkuser/:email/:pass", async (req, res) => {
     }
 });
 exports.default = route;
+function next(error) {
+    throw new Error("Function not implemented.");
+}
 //# sourceMappingURL=userauthenticate.js.map

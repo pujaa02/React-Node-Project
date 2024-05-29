@@ -3,7 +3,7 @@ let route = express.Router();
 import { Request, Response } from "express";
 import User from "./user.controller";
 import parser from "body-parser";
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
 import { Model, Optional } from 'sequelize';
 route.use(parser.json());
 route.use(parser.urlencoded({ extended: false }));
@@ -34,6 +34,8 @@ interface UserAttributes {
 };
 
 type UserCreationAttributes = Optional<UserAttributes, 'id'>;
+
+let password: string;
 
 function createRandomString(length: number): string {
     const chars: string =
@@ -92,16 +94,22 @@ route.get("/deleteuser/:id", async (req: Request, res: Response) => {
 });
 
 route.post("/password/:user_id/:actcode", async (req: Request, res: Response) => {
-    const PasswordData: PasswordData = req.body.PassData;
     const actcode: string = req.params.actcode;
     const user_id: string = req.params.user_id;
-    const { pass, repass } = PasswordData;
-    try {
-        const updatepass = await User.update({ password: pass }, { where: { access_key: actcode, user_id: user_id } });
-        res.json({ msg: "Success" })
-    } catch (error) {
-        res.json({ msg: "Something Went Wrong!!" })
+    const { pass, repass }: PasswordData = req.body.PassData;
+
+    bcrypt.hash(pass, 7, async (error, hashedPassword) => {
+        if (error) {
+            console.log(error);
+        }
+        try {
+            const updatepass = await User.update({ password: hashedPassword }, { where: { access_key: actcode, user_id: user_id } });
+            res.json({ msg: "Success" })
+        } catch (error) {
+            res.json({ msg: "Something Went Wrong!!" })
+        }
     }
+    );
 });
 
 route.get("/checkuser/:email/:pass", async (req: Request, res: Response) => {
@@ -109,9 +117,15 @@ route.get("/checkuser/:email/:pass", async (req: Request, res: Response) => {
     const pass: string = req.params.pass;
 
     try {
-        const result = await User.findOne({ where: { email: email, password: pass } });
+        const result = await User.findOne({ where: { email: email } });
         if (result?.dataValues) {
-            res.json({ msg: "Success" })
+            const dbpass = result?.dataValues;
+            let isPassSame = await bcrypt.compare(pass, dbpass.password);
+            if (isPassSame === true) {
+                res.json({ msg: "Success" })
+            } else {
+                res.json({ msg: "wrong Data" })
+            }
         } else {
             res.json({ msg: "wrong Data" })
         }
@@ -121,3 +135,7 @@ route.get("/checkuser/:email/:pass", async (req: Request, res: Response) => {
 });
 
 export default route;
+
+function next(error: Error): void {
+    throw new Error("Function not implemented.");
+}
