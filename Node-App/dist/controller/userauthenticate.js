@@ -52,13 +52,11 @@ route.post("/register", async (req, res) => {
         res.json({ message: "success", actcode: accesskey, user_id });
     }
     catch (error) {
-        console.log(error);
         res.json({ message: "failed" });
     }
 });
 route.get("/activatecheck/:user_id", async (req, res) => {
     let user_id = req.params.user_id;
-    console.log(user_id);
     let result = await user_controller_1.default.findOne({ where: { user_id: user_id } });
     const finalres = result?.dataValues;
     const d1 = new Date();
@@ -67,7 +65,6 @@ route.get("/activatecheck/:user_id", async (req, res) => {
     var diffsec = d1.getSeconds() - d2.getSeconds();
     diff /= 60 * 60;
     let final2 = Math.round(diffsec);
-    console.log(final2, "diff");
     if (final2 <= 60 && final2 >= 0) {
         return res.json({ message: "success" });
     }
@@ -78,7 +75,6 @@ route.get("/activatecheck/:user_id", async (req, res) => {
 route.get("/deleteuser/:id", async (req, res) => {
     const user_id = req.params.id;
     let result = await user_controller_1.default.update({ isdeleted: 1, deleted_at: new Date() }, { where: { user_id: user_id } });
-    console.log(result, "deleted");
     res.json({ msg: "User Deleted !!" });
 });
 route.post("/password/:user_id/:actcode", async (req, res) => {
@@ -94,5 +90,21 @@ route.post("/password/:user_id/:actcode", async (req, res) => {
         res.json({ msg: "Something Went Wrong!!" });
     }
 });
+route.get("/checkuser/:email/:pass", async (req, res) => {
+    const email = req.params.email;
+    const pass = req.params.pass;
+    try {
+        const result = await user_controller_1.default.findOne({ where: { email: email, password: pass } });
+        if (result?.dataValues) {
+            res.json({ msg: "Success" });
+        }
+        else {
+            res.json({ msg: "wrong Data" });
+        }
+    }
+    catch (error) {
+        res.json({ msg: "No data found!!" });
+    }
+});
 exports.default = route;
-//# sourceMappingURL=register.js.map
+//# sourceMappingURL=userauthenticate.js.map

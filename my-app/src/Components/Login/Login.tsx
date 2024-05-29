@@ -1,32 +1,48 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
+import axios from "axios";
 
-interface LoginFormProps {
-  onLogin: (email: string, password: string) => void;
+interface LoginData {
+  email: string;
+  password: string;
 }
 
-const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState("")
+  const [LoginData, setLoginData] = useState<LoginData>({
+    email: "",
+    password: "",
+  });
 
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setLoginData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+  const handleSubmit = async () => {
+    // e.preventDefault();
+    console.log(LoginData);
+    const result = await axios.get(`http://localhost:3036/checkuser/${LoginData.email}/${LoginData.password}`);
+    console.log(result.data.msg);
+    const res = result.data.msg;
+    if (res === "Success") {
+      navigate("/form");
+    } else if (res === "wrong Data") {
+      setError("wrong Data!!")
+    } else {
+      setError("No data found!!")
+    }
   };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    onLogin(email, password);
-
-  };
-
   return (
     <div className="container">
-      <form onSubmit={handleSubmit} className="form">
+      <form className="form">
         <h2>Login</h2>
         <div className="form-div">
           <label htmlFor="email">Email:</label>
@@ -34,8 +50,8 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
             type="text"
             id="email"
             name="email"
-            value={email}
-            onChange={handleEmailChange}
+            value={LoginData.email}
+            onChange={handleChange}
             className="form-control"
             required
           />
@@ -46,19 +62,20 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
             type="password"
             id="password"
             name="password"
-            value={password}
-            onChange={handlePasswordChange}
+            value={LoginData.password}
+            onChange={handleChange}
             className="form-control"
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <p id="loginbtn" onClick={handleSubmit}>
           Login
-        </button>
+        </p>
 
         <div className="flex">
           <p>Don't have an Acoount? <Link to="/">Register</Link></p>
         </div>
+        <p id="error">{error}</p>
       </form>
     </div>
   );

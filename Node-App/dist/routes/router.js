@@ -29,11 +29,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 let route = express.Router();
 const form_1 = __importDefault(require("../controller/form"));
-const login_1 = __importDefault(require("../controller/login"));
-const register_1 = __importDefault(require("../controller/register"));
-// 
+const userauthenticate_1 = __importDefault(require("../controller/userauthenticate"));
 route.use(form_1.default);
-route.use(login_1.default);
-route.use(register_1.default);
+route.use(userauthenticate_1.default);
 exports.default = route;
 //# sourceMappingURL=router.js.map

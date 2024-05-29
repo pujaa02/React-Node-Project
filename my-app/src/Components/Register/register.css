@@ -76,3 +76,22 @@ h2 {
 .flex a {
   text-decoration: none;
 }
+.activatebtn {
+  margin-top: 25px;
+  margin-left: 11rem;
+  width: 150px;
+  /* height: 35px; */
+  padding: 10px;
+  background-color: red;
+}
+.activatebtn p {
+  text-align: center;
+  color: #ffffff;
+  font-weight: bold;
+}
+#error {
+  color: green;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}

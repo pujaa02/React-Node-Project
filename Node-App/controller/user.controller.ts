@@ -13,7 +13,6 @@ interface UserAttributes {
     password: string
     access_key: string;
     isdeleted: string;
-    deleted_at: string;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'user_id'> { }
@@ -67,10 +66,9 @@ const User = sequelize.define("users", {
         type: DataTypes.STRING,
     },
     isdeleted: {
-        type: DataTypes.STRING,
-    },
-    deleted_at: {
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: '0'
     },
 });
 

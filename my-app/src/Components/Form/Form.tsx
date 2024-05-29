@@ -1,9 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./form.css"
+import axios from "axios";
 
-interface FormProps {
-  onSubmit: (formData: ApplicationFormData) => void;
-}
 
 interface ApplicationFormData {
   fname: string;
@@ -21,7 +19,7 @@ interface ApplicationFormData {
   bd: string;
 }
 
-const Form: React.FC<FormProps> = ({ onSubmit }) => {
+const Form: React.FC = () => {
   const [formData, setFormData] = useState<ApplicationFormData>({
     fname: "",
     lname: "",
@@ -50,7 +48,21 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    axios({
+      url: "http://localhost:3036/submit",
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({
+        formData
+      }),
+    })
+      .then(async (res) => {
+        let result = await res.data;
+      })
+      .catch((err) => console.log(err));
   };
 
   return (

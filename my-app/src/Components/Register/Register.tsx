@@ -1,10 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./register.css";
 
-interface RegisterFormProps {
-  onRegister: (RegData: RegData) => void;
-}
 interface RegData {
   fname: string;
   lname: string;
@@ -13,7 +11,13 @@ interface RegData {
   gender: string,
   bd: string;
 }
-const Register: React.FC<RegisterFormProps> = ({ onRegister }) => {
+const Register: React.FC = () => {
+ 
+  let navigate: NavigateFunction = useNavigate();
+  const [display, setDisplay] = useState(false);
+  const [error, setError] = useState("")
+  const [actcode, setactcode] = useState("");
+  const [id, setid] = useState("")
   const [RegData, setRegData] = useState<RegData>({
     fname: "",
     lname: "",
@@ -22,6 +26,9 @@ const Register: React.FC<RegisterFormProps> = ({ onRegister }) => {
     gender: "",
     bd: "",
   });
+  const changepage = () => {
+    navigate(`/activate/${actcode}`, { state: { user_id: id, actcode: actcode } })
+  }
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -31,10 +38,34 @@ const Register: React.FC<RegisterFormProps> = ({ onRegister }) => {
       [name]: value,
     }));
   };
+
   const handleRegister = (e: FormEvent) => {
     e.preventDefault();
-    onRegister(RegData);
-  };
+    setError("")
+    axios({
+      url: "http://localhost:3036/register",
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({
+        RegData
+      }),
+    })
+      .then(async (res) => {
+        let result = await res.data;
+        if (result.message === "success") {
+          setid(result.user_id);
+          setactcode(result.actcode);
+          setDisplay(true);
+        } else if (result.message === "failed") {
+          setError("something wrong!!")
+        }
+
+      })
+      .catch((err) => console.log(err));
+  }
   return (
     <div className="register-form-container">
       <h2>Registration Page</h2>
@@ -154,8 +185,16 @@ const Register: React.FC<RegisterFormProps> = ({ onRegister }) => {
         <div className="flex">
           <p>Already Have an Account? <Link to="/login">Login</Link></p>
         </div>
+        {display && <div className="activatebtn">
+          <p onClick={changepage}>Click Here</p>
+        </div>}
+        <p id="error">{error}</p>
       </form>
     </div>
   );
 };
 export default Register;
+function now() {
+  throw new Error("Function not implemented.");
+}
+

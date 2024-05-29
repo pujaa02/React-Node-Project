@@ -1,19 +1,26 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./password.css";
+import axios from "axios";
+import { NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 
-interface PasswordProps {
-    onPasssubmit: (PassData: PassData) => void;
+interface propState {
+    user_id: string;
+    actcode: string
 }
 interface PassData {
     pass: string;
     repass: string;
 }
 
-const Password: React.FC<PasswordProps> = ({ onPasssubmit }) => {
+const Password: React.FC = () => {
+    const location = useLocation();
+    let { user_id } = location.state as propState;
+    let { actcode } = location.state as propState;
+    let navigate: NavigateFunction = useNavigate();
+    const [error, setError] = useState("")
     const [PassData, setPassData] = useState<PassData>({
         pass: "",
         repass: "",
-
     });
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -26,7 +33,31 @@ const Password: React.FC<PasswordProps> = ({ onPasssubmit }) => {
     };
     const handlePassword = (e: FormEvent) => {
         e.preventDefault();
-        onPasssubmit(PassData);
+        setError("");
+        if (PassData.pass === PassData.repass) {
+            axios({
+                url: `http://localhost:3036/password/${user_id}/${actcode}`,
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({
+                    PassData
+                }),
+            })
+                .then(async (res) => {
+                    let result = await res.data.msg;
+                    if (result == "Success") {
+                        navigate("/login");
+                    } else {
+                        setError("Something Went Wrong!!")
+                    }
+                })
+                .catch((err) => console.log(err));
+        } else {
+            setError("Password must be same!!")
+        }
     };
     return (
         <div className="container-pass">
@@ -59,6 +90,7 @@ const Password: React.FC<PasswordProps> = ({ onPasssubmit }) => {
                     Set Password
                 </button>
             </form>
+            <p id="mismatch">{error}</p>
         </div>
     );
 }

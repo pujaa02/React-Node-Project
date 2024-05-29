@@ -1,14 +1,10 @@
 import * as express from "express";
 let route = express.Router();
 import form from "../controller/form";
-import login from "../controller/login"
-import register from "../controller/register";
+import userauthenticate from "../controller/userauthenticate";
 
-
-// 
 route.use(form);
-route.use(login);
-route.use(register);
+route.use(userauthenticate);
 
 
 export default route;

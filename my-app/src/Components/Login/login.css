@@ -56,3 +56,17 @@ h2 {
 .flex a {
   text-decoration: none;
 }
+#loginbtn {
+  margin: 0 0 10px 7rem;
+  width: 90px;
+  padding: 10px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+#loginbtn :hover{
+  background-color: #0056b3;
+}

@@ -50,10 +50,9 @@ const User = sequalize_1.default.define("users", {
         type: sequelize_2.DataTypes.STRING,
     },
     isdeleted: {
-        type: sequelize_2.DataTypes.STRING,
-    },
-    deleted_at: {
-        type: sequelize_2.DataTypes.DATE,
+        type: sequelize_2.DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: '0'
     },
 });
 exports.default = User;
