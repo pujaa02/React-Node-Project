@@ -6,15 +6,13 @@ import main from "./routes/router";
 dotenv.config();
 let port = process.env.PORT;
 import cors from "cors";
-// import sequelize from "./models/sequalize";
-
-
 
 app.use(cookieParser());
 // app.set("view engine", "ejs");
 // app.use(express.static("public"));
-app.use(cors());
+app.use(cors({ origin: "*", credentials: true }));
 app.options('*', cors());
+
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST");

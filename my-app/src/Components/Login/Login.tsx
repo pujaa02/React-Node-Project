@@ -8,7 +8,10 @@ interface LoginData {
   password: string;
 }
 
+
+
 const Login: React.FC = () => {
+  console.log(document.cookie, "cookeei");
   const navigate = useNavigate();
   const [error, setError] = useState("")
   const [LoginData, setLoginData] = useState<LoginData>({
@@ -30,6 +33,7 @@ const Login: React.FC = () => {
     // e.preventDefault();
     console.log(LoginData);
     const result = await axios.get(`http://localhost:3036/checkuser/${LoginData.email}/${LoginData.password}`);
+    // console.log(result.data.token, "token");
     console.log(result.data.msg);
     const res = result.data.msg;
     if (res === "Success") {

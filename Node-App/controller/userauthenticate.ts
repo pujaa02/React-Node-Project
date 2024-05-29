@@ -4,10 +4,11 @@ import { Request, Response } from "express";
 import User from "./user.controller";
 import parser from "body-parser";
 import bcrypt from 'bcryptjs';
+import jwt from "jsonwebtoken";
 import { Model, Optional } from 'sequelize';
+
 route.use(parser.json());
 route.use(parser.urlencoded({ extended: false }));
-
 interface RegisterData {
     fname: string;
     lname: string;
@@ -19,6 +20,10 @@ interface RegisterData {
 interface PasswordData {
     pass: string;
     repass: string;
+}
+interface PayloadData {
+    id: string;
+    email: string
 }
 interface UserAttributes {
     id: number;
@@ -35,7 +40,7 @@ interface UserAttributes {
 
 type UserCreationAttributes = Optional<UserAttributes, 'id'>;
 
-let password: string;
+const jwtsecret = process.env.JWT_SECRET;
 
 function createRandomString(length: number): string {
     const chars: string =
@@ -111,7 +116,6 @@ route.post("/password/:user_id/:actcode", async (req: Request, res: Response) =>
     }
     );
 });
-
 route.get("/checkuser/:email/:pass", async (req: Request, res: Response) => {
     const email: string = req.params.email;
     const pass: string = req.params.pass;
@@ -119,10 +123,16 @@ route.get("/checkuser/:email/:pass", async (req: Request, res: Response) => {
     try {
         const result = await User.findOne({ where: { email: email } });
         if (result?.dataValues) {
-            const dbpass = result?.dataValues;
-            let isPassSame = await bcrypt.compare(pass, dbpass.password);
+            const dbuser = result?.dataValues;
+            let isPassSame = await bcrypt.compare(pass, dbuser.password);
             if (isPassSame === true) {
-                res.json({ msg: "Success" })
+
+                let token: string = jwt.sign(
+                    { email: dbuser.email },
+                    jwtsecret as string,
+                    { expiresIn: "1h" },
+                );
+                res.cookie("token", token).json({ msg: "Success", token });
             } else {
                 res.json({ msg: "wrong Data" })
             }

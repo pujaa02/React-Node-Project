@@ -31,10 +31,11 @@ let route = express.Router();
 const user_controller_1 = __importDefault(require("./user.controller"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 route.use(body_parser_1.default.json());
 route.use(body_parser_1.default.urlencoded({ extended: false }));
 ;
-let password;
+const jwtsecret = process.env.JWT_SECRET;
 function createRandomString(length) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
@@ -102,10 +103,11 @@ route.get("/checkuser/:email/:pass", async (req, res) => {
     try {
         const result = await user_controller_1.default.findOne({ where: { email: email } });
         if (result?.dataValues) {
-            const dbpass = result?.dataValues;
-            let isPassSame = await bcryptjs_1.default.compare(pass, dbpass.password);
+            const dbuser = result?.dataValues;
+            let isPassSame = await bcryptjs_1.default.compare(pass, dbuser.password);
             if (isPassSame === true) {
-                res.json({ msg: "Success" });
+                let token = jsonwebtoken_1.default.sign({ email: dbuser.email }, jwtsecret, { expiresIn: "1h" });
+                res.cookie("token", token).json({ msg: "Success", token });
             }
             else {
                 res.json({ msg: "wrong Data" });
