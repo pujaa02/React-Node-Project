@@ -1,25 +1,11 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./form.css"
 import axios from "axios";
-
-
-interface ApplicationFormData {
-  fname: string;
-  lname: string;
-  designation: string;
-  email: string;
-  phone: string;
-  gender: string,
-  rel_status: string;
-  address1: string;
-  address2: string;
-  city: string;
-  state: string;
-  zip: string;
-  bd: string;
-}
+import { useNavigate } from "react-router-dom";
+import { ApplicationFormData } from "../interfacefile";
 
 const Form: React.FC = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState<ApplicationFormData>({
     fname: "",
     lname: "",
@@ -32,7 +18,7 @@ const Form: React.FC = () => {
     address2: "",
     city: "",
     state: "",
-    zip: "",
+    zipcode: "",
     bd: "",
   });
 
@@ -61,6 +47,10 @@ const Form: React.FC = () => {
     })
       .then(async (res) => {
         let result = await res.data;
+        if (result.msg === "success") {
+          navigate('/fetchemp');
+        }
+
       })
       .catch((err) => console.log(err));
   };
@@ -248,12 +238,12 @@ const Form: React.FC = () => {
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="zip">Zip Code:</label>
+            <label htmlFor="zipcode">zipcode : </label>
             <input
               type="text"
-              id="zip"
-              name="zip"
-              value={formData.zip}
+              id="zipcode"
+              name="zipcode"
+              value={formData.zipcode}
               onChange={handleChange}
               className="form-control"
               required

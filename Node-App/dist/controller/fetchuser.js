@@ -28,16 +28,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 let route = express.Router();
-const body_parser_1 = __importDefault(require("body-parser"));
-route.use(body_parser_1.default.json());
-route.use(body_parser_1.default.urlencoded({ extended: false }));
 const form_controller_1 = __importDefault(require("./form.controller"));
-route.post("/submit", async (req, res) => {
-    const data = req.body.formData;
-    const { fname, lname, designation, email, phone, gender, rel_status, address1, address2, city, state, zipcode, bd, } = data;
-    let datainserted = await form_controller_1.default.create({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zipcode: zipcode, bd: bd });
-    const emp_id = (datainserted?.dataValues.emp_id);
-    res.json({ msg: "success" });
+route.get("/getallemp", async (req, res) => {
+    let query = await form_controller_1.default.findAll();
+    res.json({ result: query });
 });
 exports.default = route;
-//# sourceMappingURL=form.js.map
+//# sourceMappingURL=fetchuser.js.map

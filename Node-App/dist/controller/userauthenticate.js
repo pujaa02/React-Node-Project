@@ -34,7 +34,6 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 route.use(body_parser_1.default.json());
 route.use(body_parser_1.default.urlencoded({ extended: false }));
-;
 const jwtsecret = process.env.JWT_SECRET;
 function createRandomString(length) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -107,7 +106,7 @@ route.get("/checkuser/:email/:pass", async (req, res) => {
             let isPassSame = await bcryptjs_1.default.compare(pass, dbuser.password);
             if (isPassSame === true) {
                 let token = jsonwebtoken_1.default.sign({ email: dbuser.email }, jwtsecret, { expiresIn: "1h" });
-                res.cookie("token", token, { httpOnly: true, secure: false, maxAge: 24 * 60 * 60 * 1000 }).json({ msg: "Success", token });
+                res.cookie("token", token, { httpOnly: false, secure: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' }).json({ msg: "Success", token });
             }
             else {
                 res.json({ msg: "wrong Data" });
@@ -122,7 +121,4 @@ route.get("/checkuser/:email/:pass", async (req, res) => {
     }
 });
 exports.default = route;
-function next(error) {
-    throw new Error("Function not implemented.");
-}
 //# sourceMappingURL=userauthenticate.js.map

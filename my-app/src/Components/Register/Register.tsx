@@ -2,17 +2,10 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./register.css";
+import { RegData } from "../interfacefile";
 
-interface RegData {
-  fname: string;
-  lname: string;
-  email: string;
-  phone: string;
-  gender: string,
-  bd: string;
-}
 const Register: React.FC = () => {
- 
+
   let navigate: NavigateFunction = useNavigate();
   const [display, setDisplay] = useState(false);
   const [error, setError] = useState("")

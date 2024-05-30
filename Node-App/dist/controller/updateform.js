@@ -28,16 +28,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 let route = express.Router();
-const body_parser_1 = __importDefault(require("body-parser"));
-route.use(body_parser_1.default.json());
-route.use(body_parser_1.default.urlencoded({ extended: false }));
 const form_controller_1 = __importDefault(require("./form.controller"));
-route.post("/submit", async (req, res) => {
+route.get("/finduser/:id", async (req, res) => {
+    const id = req.params.id;
+    const query = await form_controller_1.default.findOne({ where: { emp_id: id } });
+    res.json({ result: query });
+});
+route.post("/updateemp/:id", async (req, res) => {
+    const id = req.params.id;
     const data = req.body.formData;
     const { fname, lname, designation, email, phone, gender, rel_status, address1, address2, city, state, zipcode, bd, } = data;
-    let datainserted = await form_controller_1.default.create({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zipcode: zipcode, bd: bd });
-    const emp_id = (datainserted?.dataValues.emp_id);
-    res.json({ msg: "success" });
+    try {
+        const updatedata = await form_controller_1.default.update({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zipcode: zipcode, bd: bd }, { where: { emp_id: id } });
+        res.json({ msg: "success" });
+    }
+    catch (error) {
+        res.json({ msg: "failed" });
+    }
+});
+route.get("/deleteemp/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+        const result = await form_controller_1.default.destroy({ where: { emp_id: id } });
+        res.json({ msg: "success" });
+    }
+    catch (error) {
+        res.json({ msg: "failed" });
+    }
 });
 exports.default = route;
-//# sourceMappingURL=form.js.map
+//# sourceMappingURL=updateform.js.map

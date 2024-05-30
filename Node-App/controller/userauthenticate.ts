@@ -6,37 +6,9 @@ import parser from "body-parser";
 import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
 import { Model, Optional } from 'sequelize';
-
+import { UserAttributes, PasswordData, RegisterData } from "../interfacefile";
 route.use(parser.json());
 route.use(parser.urlencoded({ extended: false }));
-interface RegisterData {
-    fname: string;
-    lname: string;
-    email: string;
-    phone: string;
-    gender: string;
-    bd: string;
-}
-interface PasswordData {
-    pass: string;
-    repass: string;
-}
-interface PayloadData {
-    id: string;
-    email: string
-}
-interface UserAttributes {
-    id: number;
-    user_id: string;
-    fname: string;
-    lname: string;
-    email: string;
-    phone: string;
-    gender: string;
-    bd: string;
-    password: string
-    access_key: string;
-};
 
 type UserCreationAttributes = Optional<UserAttributes, 'id'>;
 
@@ -132,7 +104,7 @@ route.get("/checkuser/:email/:pass", async (req: Request, res: Response) => {
                     jwtsecret as string,
                     { expiresIn: "1h" },
                 );
-                res.cookie("token", token,{httpOnly:true,secure:false,maxAge:24*60*60*1000}).json({ msg: "Success", token });
+                res.cookie("token", token, { httpOnly: false, secure: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' }).json({ msg: "Success", token });
             } else {
                 res.json({ msg: "wrong Data" })
             }
@@ -146,6 +118,3 @@ route.get("/checkuser/:email/:pass", async (req: Request, res: Response) => {
 
 export default route;
 
-function next(error: Error): void {
-    throw new Error("Function not implemented.");
-}

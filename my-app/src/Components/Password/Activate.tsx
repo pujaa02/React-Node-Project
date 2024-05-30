@@ -4,11 +4,9 @@ import "./activate.css"
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { log } from "console";
+import { propState } from "../interfacefile";
 
-interface propState {
-    user_id: string;
-    actcode: string
-}
+
 const Activate: React.FC = () => {
     let navigate: NavigateFunction = useNavigate();
     const location = useLocation();
@@ -16,14 +14,12 @@ const Activate: React.FC = () => {
     const [error, setError] = useState("")
     let { user_id } = location.state as propState;
     let { actcode } = location.state as propState;
-    console.log(user_id, "userid", actcode);
     const passpage = () => {
         navigate(`/password`, { state: { user_id: user_id, actcode: actcode } })
     }
     const myfun = async () => {
         setError("")
         const result = await axios.get(`http://localhost:3036/activatecheck/${user_id}`);
-        console.log(result.data.message);
         const msg: string = result.data.message
         if (msg == "success") {
             setDisplay(true);

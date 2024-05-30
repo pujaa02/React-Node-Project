@@ -1,46 +1,61 @@
-import { Request } from "express";
 
-interface QueryData {
-    id: number | string;
-    city: string;
-    state_id: number | string;
-    name: string;
-    country_id: number | string;
-    edu_id: number | string;
-    emp_id: number | string;
-    type_of_result: string;
-    Name_of_board_or_course: string;
-    Passing_year: number | string;
-    Percentage: number | string;
+export interface Emp {
+    emp_id: number;
     fname: string;
     lname: string;
     designation: string;
     email: string;
-    phone: number | string;
+    phone: string;
     gender: string;
     rel_status: string;
     address1: string;
     address2: string;
+    city: string;
     state: string;
     zipcode: string;
-    bd: Date | string;
-    lan_id: number | string;
-    language_know: string;
-    rws: string;
-    pre_id: string;
-    prefered_location: string;
-    notice_period: string;
-    expected_ctc: string;
-    current_ctc: string;
-    department: string;
-    ref_id: number | string;
-    contact_number: number | string;
-    relation: string;
-    tech_know: string;
-    level_of_technology: string;
-    company_name: string;
-    from_date: Date | string;
-    to_date: Date | string;
+    bd: string;
 }
-
-export default QueryData;
+export interface FormData {
+    fname: string;
+    lname: string;
+    designation: string;
+    bd: string;
+    email: string;
+    phone: string;
+    zipcode: string;
+    address1: string;
+    address2: string;
+    city: string;
+    state: string;
+    gender: string;
+    rel_status: string;
+}
+export interface UserAttributes {
+    id: string;
+    user_id: string;
+    fname: string;
+    lname: string;
+    email: string;
+    phone: string;
+    gender: string;
+    bd: string;
+    password: string
+    access_key: string;
+    isdeleted: string;
+}
+export interface PasswordData {
+    pass: string;
+    repass: string;
+}
+export interface PayloadData {
+    id: string;
+    email: string
+}
+export interface RegisterData {
+    fname: string;
+    lname: string;
+    email: string;
+    phone: string;
+    gender: string;
+    bd: string;
+}

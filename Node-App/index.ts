@@ -7,6 +7,7 @@ dotenv.config();
 let port = process.env.PORT;
 import cors from "cors";
 
+
 app.use(cookieParser());
 // app.set("view engine", "ejs");
 // app.use(express.static("public"));
@@ -16,7 +17,7 @@ const corsOptions = {
   credentials: true
 };
 app.use(cors(corsOptions))
-app.options('*', cors(corsOptions));
+app.options('http://localhost:5000', cors(corsOptions));
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:5000");

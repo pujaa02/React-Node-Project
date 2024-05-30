@@ -30,7 +30,11 @@ const express = __importStar(require("express"));
 let route = express.Router();
 const form_1 = __importDefault(require("../controller/form"));
 const userauthenticate_1 = __importDefault(require("../controller/userauthenticate"));
+const fetchuser_1 = __importDefault(require("../controller/fetchuser"));
+const updateform_1 = __importDefault(require("../controller/updateform"));
 route.use(form_1.default);
 route.use(userauthenticate_1.default);
+route.use(fetchuser_1.default);
+route.use(updateform_1.default);
 exports.default = route;
 //# sourceMappingURL=router.js.map

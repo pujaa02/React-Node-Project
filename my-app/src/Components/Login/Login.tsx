@@ -2,16 +2,10 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
 import axios from "axios";
-
-interface LoginData {
-  email: string;
-  password: string;
-}
-
+import { LoginData } from "../interfacefile";
 
 
 const Login: React.FC = () => {
-  console.log(document.cookie, "cookeei");
   const navigate = useNavigate();
   const [error, setError] = useState("")
   const [LoginData, setLoginData] = useState<LoginData>({
@@ -30,11 +24,7 @@ const Login: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    // e.preventDefault();
-    console.log(LoginData);
     const result = await axios.get(`http://localhost:3036/checkuser/${LoginData.email}/${LoginData.password}`, { withCredentials: true });
-    // console.log(result.data.token, "token");
-    console.log(result.data.msg);
     const res = result.data.msg;
     if (res === "Success") {
       navigate("/form");

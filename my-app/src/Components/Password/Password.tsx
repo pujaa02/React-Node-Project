@@ -2,15 +2,9 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./password.css";
 import axios from "axios";
 import { NavigateFunction, useLocation, useNavigate } from "react-router-dom";
+import { propState, PassData } from "../interfacefile";
 
-interface propState {
-    user_id: string;
-    actcode: string
-}
-interface PassData {
-    pass: string;
-    repass: string;
-}
+
 
 const Password: React.FC = () => {
     const location = useLocation();
