@@ -10,11 +10,16 @@ import cors from "cors";
 app.use(cookieParser());
 // app.set("view engine", "ejs");
 // app.use(express.static("public"));
-app.use(cors({ origin: "*", credentials: true }));
-app.options('*', cors());
+const corsOptions = {
+  origin: 'http://localhost:5000',
+  methods: 'GET, PUT, POST',
+  credentials: true
+};
+app.use(cors(corsOptions))
+app.options('*', cors(corsOptions));
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5000");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();

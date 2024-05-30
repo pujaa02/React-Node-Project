@@ -32,7 +32,7 @@ const Login: React.FC = () => {
   const handleSubmit = async () => {
     // e.preventDefault();
     console.log(LoginData);
-    const result = await axios.get(`http://localhost:3036/checkuser/${LoginData.email}/${LoginData.password}`);
+    const result = await axios.get(`http://localhost:3036/checkuser/${LoginData.email}/${LoginData.password}`, { withCredentials: true });
     // console.log(result.data.token, "token");
     console.log(result.data.msg);
     const res = result.data.msg;

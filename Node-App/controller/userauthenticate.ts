@@ -132,7 +132,7 @@ route.get("/checkuser/:email/:pass", async (req: Request, res: Response) => {
                     jwtsecret as string,
                     { expiresIn: "1h" },
                 );
-                res.cookie("token", token).json({ msg: "Success", token });
+                res.cookie("token", token,{httpOnly:true,secure:false,maxAge:24*60*60*1000}).json({ msg: "Success", token });
             } else {
                 res.json({ msg: "wrong Data" })
             }

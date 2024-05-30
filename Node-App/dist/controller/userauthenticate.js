@@ -107,7 +107,7 @@ route.get("/checkuser/:email/:pass", async (req, res) => {
             let isPassSame = await bcryptjs_1.default.compare(pass, dbuser.password);
             if (isPassSame === true) {
                 let token = jsonwebtoken_1.default.sign({ email: dbuser.email }, jwtsecret, { expiresIn: "1h" });
-                res.cookie("token", token).json({ msg: "Success", token });
+                res.cookie("token", token, { httpOnly: true, secure: false, maxAge: 24 * 60 * 60 * 1000 }).json({ msg: "Success", token });
             }
             else {
                 res.json({ msg: "wrong Data" });
