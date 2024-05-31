@@ -79,8 +79,7 @@ route.get("/deleteuser/:id", async (req, res) => {
     let result = await user_controller_1.default.update({ isdeleted: 1, deleted_at: new Date() }, { where: { user_id: user_id } });
     res.json({ msg: "User Deleted !!" });
 });
-route.post("/password/:user_id/:actcode", async (req, res) => {
-    const actcode = req.params.actcode;
+route.post("/password/:user_id", async (req, res) => {
     const user_id = req.params.user_id;
     const { pass, repass } = req.body.PassData;
     bcryptjs_1.default.hash(pass, 7, async (error, hashedPassword) => {
@@ -88,7 +87,7 @@ route.post("/password/:user_id/:actcode", async (req, res) => {
             console.log(error);
         }
         try {
-            const updatepass = await user_controller_1.default.update({ password: hashedPassword }, { where: { access_key: actcode, user_id: user_id } });
+            const updatepass = await user_controller_1.default.update({ password: hashedPassword }, { where: { user_id: user_id } });
             res.json({ msg: "Success" });
         }
         catch (error) {

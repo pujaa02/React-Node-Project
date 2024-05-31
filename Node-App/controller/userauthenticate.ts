@@ -70,8 +70,7 @@ route.get("/deleteuser/:id", async (req: Request, res: Response) => {
     res.json({ msg: "User Deleted !!" })
 });
 
-route.post("/password/:user_id/:actcode", async (req: Request, res: Response) => {
-    const actcode: string = req.params.actcode;
+route.post("/password/:user_id", async (req: Request, res: Response) => {
     const user_id: string = req.params.user_id;
     const { pass, repass }: PasswordData = req.body.PassData;
 
@@ -80,7 +79,7 @@ route.post("/password/:user_id/:actcode", async (req: Request, res: Response) =>
             console.log(error);
         }
         try {
-            const updatepass = await User.update({ password: hashedPassword }, { where: { access_key: actcode, user_id: user_id } });
+            const updatepass = await User.update({ password: hashedPassword }, { where: {  user_id: user_id } });
             res.json({ msg: "Success" })
         } catch (error) {
             res.json({ msg: "Something Went Wrong!!" })
