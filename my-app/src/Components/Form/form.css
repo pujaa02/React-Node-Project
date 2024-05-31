@@ -5,6 +5,9 @@
   border-radius: 5px;
   background-color: #ffffff;
 }
+.denied {
+  background-color: #ffffff;
+}
 fieldset {
   border-radius: 5px;
 }
@@ -60,4 +63,17 @@ legend {
 
 .application-form .btn:hover {
   background-color: #0056b3;
+}
+.logout {
+  color: #ffffff;
+  margin: 0 0 10px 42rem;
+  background-color: red;
+  width: 105px;
+  padding: 10px;
+  border: 1px solid red;
+  border-radius: 5px;
+  font-weight: bold;
+}
+.logout:hover {
+  background-color: rgb(201, 76, 76);
 }

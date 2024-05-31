@@ -91,11 +91,11 @@ route.post("/password/:user_id/:actcode", async (req: Request, res: Response) =>
 route.get("/checkuser/:email/:pass", async (req: Request, res: Response) => {
     const email: string = req.params.email;
     const pass: string = req.params.pass;
-
     try {
         const result = await User.findOne({ where: { email: email } });
         if (result?.dataValues) {
             const dbuser = result?.dataValues;
+
             let isPassSame = await bcrypt.compare(pass, dbuser.password);
             if (isPassSame === true) {
 
@@ -112,6 +112,22 @@ route.get("/checkuser/:email/:pass", async (req: Request, res: Response) => {
             res.json({ msg: "wrong Data" })
         }
     } catch (error) {
+        res.json({ msg: "No data found!!" })
+    }
+});
+
+route.get("/finduser/:email", async (req: Request, res: Response) => {
+    const email: string = req.params.email;
+    try {
+        const result = await User.findOne({ where: { email: email, isdeleted: 0 } });
+        if (result?.dataValues) {
+            const dbuser = result?.dataValues;
+            res.json({ msg: "Success", id: dbuser.user_id });
+        } else {
+            res.json({ msg: "wrong Data" })
+        }
+    }
+    catch (error) {
         res.json({ msg: "No data found!!" })
     }
 });

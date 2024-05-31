@@ -8,7 +8,9 @@ const sequelize = new Sequelize(
     {
         host: `${process.env.HOST}`,
         dialect: "mysql",
-    }
+        logging: false
+    },
+
 );
 sequelize.sync().then(() => {
     console.log("models created succesfully");

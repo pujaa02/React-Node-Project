@@ -1,5 +1,5 @@
 .container {
-  width: 350px;
+  width: 400px;
   padding: 20px;
   border: 1px solid #ced4da;
   border-radius: 10px;
@@ -51,13 +51,14 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 20px;
 }
 
 .flex a {
   text-decoration: none;
 }
 #loginbtn {
-  margin: 0 0 10px 7rem;
+  /* margin: 0 0 10px 7rem; */
   width: 90px;
   padding: 10px;
   background-color: #007bff;
@@ -67,6 +68,20 @@ h2 {
   cursor: pointer;
   text-align: center;
 }
-#loginbtn :hover{
+#loginbtn :hover {
+  background-color: #0056b3;
+}
+#frgtpass {
+  /* margin: 0 0 10px 7rem; */
+  width: 200px;
+  padding: 10px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+#frgtpass:hover {
   background-color: #0056b3;
 }

@@ -3,12 +3,21 @@ import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./register.css";
 import { RegData } from "../interfacefile";
+import { ValidateRegdata } from "../interfacefile";
 
 const Register: React.FC = () => {
 
   let navigate: NavigateFunction = useNavigate();
   const [display, setDisplay] = useState(false);
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
+  const [validaterr, setValidateerr] = useState<ValidateRegdata>({
+    fn: "",
+    ln: "",
+    mail: "",
+    number: "",
+    gen: "",
+    dob: ""
+  })
   const [actcode, setactcode] = useState("");
   const [id, setid] = useState("")
   const [RegData, setRegData] = useState<RegData>({
@@ -31,33 +40,75 @@ const Register: React.FC = () => {
       [name]: value,
     }));
   };
-
+  const validateform = (data: RegData) => {
+    let validaterr: ValidateRegdata = {
+      fn: "",
+      ln: "",
+      mail: "",
+      number: "",
+      gen: "",
+      dob: ""
+    };
+    if (!data.fname.trim()) {
+      validaterr.fn = "FirstName is Required!!"
+    }
+    if (!data.lname.trim()) {
+      validaterr.ln = "LastName is Required!!"
+    }
+    if (!data.email.trim()) {
+      validaterr.mail = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
+      validaterr.mail = 'Email is invalid';
+    }
+    if (!data.phone.trim()) {
+      validaterr.number = "Number is Required!!"
+    } else if (!/^\d{10}$/.test(data.phone)) {
+      validaterr.number = "Please enter valid number!!"
+    }
+    if (!data.gender.trim()) {
+      validaterr.gen = "Gender is Required!!"
+    }
+    if (!data.bd.trim()) {
+      validaterr.dob = 'Birthday Date is Required!!'
+    }
+    return validaterr;
+  }
   const handleRegister = (e: FormEvent) => {
     e.preventDefault();
-    setError("")
-    axios({
-      url: "http://localhost:3036/register",
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      data: JSON.stringify({
-        RegData
-      }),
-    })
-      .then(async (res) => {
-        let result = await res.data;
-        if (result.message === "success") {
-          setid(result.user_id);
-          setactcode(result.actcode);
-          setDisplay(true);
-        } else if (result.message === "failed") {
-          setError("something wrong!!")
-        }
+    setError("");
+    const newerrors = validateform(RegData);
+    setValidateerr(newerrors);
 
+    if (newerrors.fn.length === 0 && newerrors.ln.length === 0 && newerrors.mail.length === 0 && newerrors.number.length === 0 && newerrors.gen.length === 0 && newerrors.dob.length === 0) {
+      axios({
+        url: "http://localhost:3036/register",
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        data: JSON.stringify({
+          RegData
+        }),
       })
-      .catch((err) => console.log(err));
+        .then(async (res) => {
+          let result = await res.data;
+          if (result.message === "success") {
+            setid(result.user_id);
+            setactcode(result.actcode);
+            setDisplay(true);
+          } else if (result.message === "failed") {
+            setError("something wrong!!")
+          }
+
+        })
+        .catch((err) => console.log(err));
+    } else {
+      console.log("validation error!!");
+
+    }
+
+
   }
   return (
     <div className="register-form-container">
@@ -73,8 +124,8 @@ const Register: React.FC = () => {
               value={RegData.fname}
               onChange={handleChange}
               className="form-control"
-              required
             />
+            {validaterr.fn && <span className="error-message">{validaterr.fn}</span>}
           </div>
           <div className="form-group">
             <label htmlFor="lname">Last Name:</label>
@@ -84,10 +135,9 @@ const Register: React.FC = () => {
               name="lname"
               value={RegData.lname}
               onChange={handleChange}
-
               className="form-control"
-              required
             />
+            {validaterr.ln && <span className="error-message">{validaterr.ln}</span>}
           </div>
         </div>
         <div className="row">
@@ -100,8 +150,8 @@ const Register: React.FC = () => {
               value={RegData.email}
               onChange={handleChange}
               className="form-control"
-              required
             />
+            {validaterr.mail && <span className="error-message">{validaterr.mail}</span>}
           </div>
           <div className="form-group">
             <label htmlFor="phone">Phone:</label>
@@ -112,8 +162,8 @@ const Register: React.FC = () => {
               value={RegData.phone}
               onChange={handleChange}
               className="form-control"
-              required
             />
+            {validaterr.number && <span className="error-message">{validaterr.number}</span>}
           </div>
         </div>
         <div className="row">
@@ -126,8 +176,8 @@ const Register: React.FC = () => {
               value={RegData.bd}
               onChange={handleChange}
               className="form-control"
-              required
-            />
+            /> <br />
+            {validaterr.dob && <span className="error-message">{validaterr.dob}</span>}
           </div>
           <div className="formgender">
             <label >Gender:</label> <br />
@@ -169,6 +219,7 @@ const Register: React.FC = () => {
                 <label htmlFor="other">Other</label>
               </div>
             </div>
+            {validaterr.gen && <span className="error-message">{validaterr.gen}</span>}
           </div>
         </div>
 
@@ -187,7 +238,5 @@ const Register: React.FC = () => {
   );
 };
 export default Register;
-function now() {
-  throw new Error("Function not implemented.");
-}
+
 

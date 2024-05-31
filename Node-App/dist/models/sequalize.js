@@ -9,6 +9,7 @@ dotenv_1.default.config();
 const sequelize = new sequelize_1.Sequelize(`${process.env.DATABASE}`, `${process.env.DBUSER}`, `${process.env.DBPASSWORD}`, {
     host: `${process.env.HOST}`,
     dialect: "mysql",
+    logging: false
 });
 sequelize.sync().then(() => {
     console.log("models created succesfully");

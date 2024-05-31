@@ -24,7 +24,6 @@ export interface ApplicationFormData {
     state: string;
     zipcode: string;
     bd: string;
-    // zipcode: string;
 }
 export interface User {
     emp_id: number;
@@ -50,4 +49,24 @@ export interface propState {
 export interface PassData {
     pass: string;
     repass: string;
+}
+export interface ValidateRegdata {
+    fn: string;
+    ln: string;
+    mail: string;
+    number: string;
+    gen: string;
+    dob: string;
+}
+export interface Validatepass {
+    password: string;
+    confirmpass: string
+}
+export interface Validatelogin {
+    mail: string;
+    pass: string;
+}
+export interface Value {
+    id: string;
+    code: string;
 }

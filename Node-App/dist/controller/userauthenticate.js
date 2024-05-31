@@ -120,5 +120,21 @@ route.get("/checkuser/:email/:pass", async (req, res) => {
         res.json({ msg: "No data found!!" });
     }
 });
+route.get("/finduser/:email", async (req, res) => {
+    const email = req.params.email;
+    try {
+        const result = await user_controller_1.default.findOne({ where: { email: email, isdeleted: 0 } });
+        if (result?.dataValues) {
+            const dbuser = result?.dataValues;
+            res.json({ msg: "Success", id: dbuser.user_id });
+        }
+        else {
+            res.json({ msg: "wrong Data" });
+        }
+    }
+    catch (error) {
+        res.json({ msg: "No data found!!" });
+    }
+});
 exports.default = route;
 //# sourceMappingURL=userauthenticate.js.map

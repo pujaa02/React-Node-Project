@@ -3,11 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
 import axios from "axios";
 import { LoginData } from "../interfacefile";
-
+import { Validatelogin } from "../interfacefile";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
+  const [validaterr, setValidateerr] = useState<Validatelogin>({
+    mail: "",
+    pass: ""
+  })
   const [LoginData, setLoginData] = useState<LoginData>({
     email: "",
     password: "",
@@ -22,18 +26,39 @@ const Login: React.FC = () => {
       [name]: value,
     }));
   };
-
+  const validateform = (data: LoginData) => {
+    let validaterr: Validatelogin = {
+      pass: "",
+      mail: ""
+    };
+    if (!data.password) {
+      validaterr.pass = 'Password is required';
+    }
+    if (!data.email) {
+      validaterr.mail = 'Email is required';
+    }
+    return validaterr;
+  }
   const handleSubmit = async () => {
-    const result = await axios.get(`http://localhost:3036/checkuser/${LoginData.email}/${LoginData.password}`, { withCredentials: true });
-    const res = result.data.msg;
-    if (res === "Success") {
-      navigate("/form");
-    } else if (res === "wrong Data") {
-      setError("wrong Data!!")
+    const newerrors = validateform(LoginData);
+    setValidateerr(newerrors);
+    if (newerrors.mail.length === 0 && newerrors.pass.length === 0) {
+      const result = await axios.get(`http://localhost:3036/checkuser/${LoginData.email}/${LoginData.password}`, { withCredentials: true });
+      const res = result.data.msg;
+      if (res === "Success") {
+        navigate("/form");
+      } else if (res === "wrong Data") {
+        setError("wrong Data!!")
+      } else {
+        setError("No data found!!")
+      }
     } else {
-      setError("No data found!!")
+      console.log("validation error!!");
     }
   };
+  const frgtpass = () => {
+    navigate('/forget')
+  }
   return (
     <div className="container">
       <form className="form">
@@ -47,8 +72,8 @@ const Login: React.FC = () => {
             value={LoginData.email}
             onChange={handleChange}
             className="form-control"
-            required
           />
+          {validaterr.mail && <span className="error-message">{validaterr.mail}</span>}
         </div>
         <div className="form-div">
           <label htmlFor="password">Password:</label>
@@ -59,12 +84,16 @@ const Login: React.FC = () => {
             value={LoginData.password}
             onChange={handleChange}
             className="form-control"
-            required
           />
+          {validaterr.pass && <span className="error-message">{validaterr.pass}</span>}
         </div>
-        <p id="loginbtn" onClick={handleSubmit}>
-          Login
-        </p>
+        <div className="flex">
+          <p id="frgtpass" onClick={frgtpass}>Forgot Password</p>
+          <p id="loginbtn" onClick={handleSubmit}>
+            Login
+          </p>
+        </div>
+
 
         <div className="flex">
           <p>Don't have an Acoount? <Link to="/">Register</Link></p>
