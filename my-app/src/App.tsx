@@ -8,6 +8,7 @@ import Activate from "./Components/Password/Activate";
 import Password from "./Components/Password/Password";
 import Fetchemp from "./Components/EmployessShow/Fetchemp";
 import Updateform from "./Components/UpdateForm/Updateform";
+import Wrong from "./Components/wrongurl/Wrong";
 
 const App: React.FC = () => {
   const cookie = (document.cookie);
@@ -23,6 +24,7 @@ const App: React.FC = () => {
         {/* <Route path="/form" element={<Form />}></Route> */}
         <Route path="/activate/:actcode" element={<Activate />}></Route>
         <Route path="/password" element={<Password />}></Route>
+        <Route path="*" element={<Wrong />}></Route>
       </Routes>
     </div>
   );
