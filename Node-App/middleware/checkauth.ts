@@ -5,9 +5,9 @@ dotenv.config();
 
 function checkAuth(req: Request, res: Response, next: NextFunction) {
   try {
-    var token2: string = req.cookies.token;
+    const token2: string = req.cookies.token;
     const key: string | undefined = process.env.JWT_SECRET_KEY
-    const verified = jwt.verify(token2, key as string);
+    const verified: string | jwt.JwtPayload = jwt.verify(token2, key as string);
 
     if (verified) {
       next();

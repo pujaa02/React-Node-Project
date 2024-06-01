@@ -5,7 +5,7 @@ export interface Emp {
     lname: string;
     designation: string;
     email: string;
-    phone: string;
+    phone: string | number;
     gender: string;
     rel_status: string;
     address1: string;
@@ -13,15 +13,16 @@ export interface Emp {
     city: string;
     state: string;
     zipcode: string;
-    bd: string;
+    bd: string | Date;
 }
+
 export interface FormData {
     fname: string;
     lname: string;
     designation: string;
-    bd: string;
+    bd: string | Date;
     email: string;
-    phone: string;
+    phone: string | number;
     zipcode: string;
     address1: string;
     address2: string;
@@ -52,6 +53,7 @@ export interface PayloadData {
     email: string
 }
 export interface RegisterData {
+    user_id: number
     fname: string;
     lname: string;
     email: string;

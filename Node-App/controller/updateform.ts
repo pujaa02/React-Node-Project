@@ -3,12 +3,13 @@ const route = express.Router();
 import { Request, Response } from "express";
 import Employee from "./form.controller";
 import { FormData } from "../interfacefile";
+import { EmployeeAttribute } from "./form.controller";
 
 route.get(
     "/finduser/:id",
     async (req: Request, res: Response) => {
         const id: string = req.params.id;
-        const query = await Employee.findOne({ where: { emp_id: id } })
+        const query: EmployeeAttribute | null = await Employee.findOne({ where: { emp_id: id } })
         res.json({ result: query });
     }
 );
@@ -18,24 +19,9 @@ route.post(
     async (req: Request, res: Response) => {
         const id: string = req.params.id;
         const data: FormData = req.body.formData;
-        const {
-            fname,
-            lname,
-            designation,
-            email,
-            phone,
-            gender,
-            rel_status,
-            address1,
-            address2,
-            city,
-            state,
-            zipcode,
-            bd,
-        } = data;
 
         try {
-            const updatedata = await Employee.update({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zipcode: zipcode, bd: bd }, { where: { emp_id: id } });
+            await Employee.update({ fname: data.fname, lname: data.lname, designation: data.designation, email: data.email, phone: data.phone, gender: data.gender, rel_status: data.rel_status, address1: data.address1, address2: data.address2, city: data.city, state: data.state, zipcode: data.zipcode, bd: data.bd }, { where: { emp_id: id } });
             res.json({ msg: "success" })
 
         } catch (error) {
@@ -50,7 +36,7 @@ route.get(
     async (req: Request, res: Response) => {
         const id: string = req.params.id;
         try {
-            const result = await Employee.destroy({ where: { emp_id: id } });
+            await Employee.destroy({ where: { emp_id: id } });
             res.json({ msg: "success" });
         } catch (error) {
             res.json({ msg: "failed" });

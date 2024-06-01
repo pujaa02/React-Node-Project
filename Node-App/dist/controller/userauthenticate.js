@@ -62,21 +62,23 @@ route.get("/activatecheck/:user_id", async (req, res) => {
     const result = await user_controller_1.default.findOne({ where: { user_id: user_id } });
     const finalres = result?.dataValues;
     const d1 = new Date();
-    const d2 = new Date(finalres.createdAt);
-    var diff = (d1.getTime() - d2.getTime()) / 1000;
-    var diffsec = d1.getSeconds() - d2.getSeconds();
-    diff /= 60 * 60;
-    const final2 = Math.round(diffsec);
-    if (final2 <= 60 && final2 >= 0) {
-        return res.json({ message: "success" });
-    }
-    else {
-        return res.json({ message: "failed" });
+    if (finalres) {
+        const d2 = new Date(finalres.createdAt);
+        var diff = (d1.getTime() - d2.getTime()) / 1000;
+        var diffsec = d1.getSeconds() - d2.getSeconds();
+        diff /= 60 * 60;
+        const final2 = Math.round(diffsec);
+        if (final2 <= 60 && final2 >= 0) {
+            return res.json({ message: "success" });
+        }
+        else {
+            return res.json({ message: "failed" });
+        }
     }
 });
 route.get("/deleteuser/:id", async (req, res) => {
     const user_id = req.params.id;
-    const result = await user_controller_1.default.update({ isdeleted: 1, deleted_at: new Date() }, { where: { user_id: user_id } });
+    await user_controller_1.default.update({ isdeleted: 1, deleted_at: new Date() }, { where: { user_id: user_id } });
     res.json({ msg: "User Deleted !!" });
 });
 route.post("/password/:user_id", async (req, res) => {
@@ -87,7 +89,7 @@ route.post("/password/:user_id", async (req, res) => {
             console.log(error);
         }
         try {
-            const updatepass = await user_controller_1.default.update({ password: hashedPassword }, { where: { user_id: user_id } });
+            await user_controller_1.default.update({ password: hashedPassword }, { where: { user_id: user_id } });
             res.json({ msg: "Success" });
         }
         catch (error) {

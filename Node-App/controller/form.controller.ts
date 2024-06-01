@@ -1,9 +1,30 @@
-import { INTEGER } from "sequelize";
+import { INTEGER, Model } from "sequelize";
 import sequelize from "../models/sequalize";
 import { DataTypes } from "sequelize";
 
-const phoneValidationRegex = /\d{3}-\d{3}-\d{4}/
-const Employee = sequelize.define("emp_detail", {
+
+export interface EmployeeAttribute extends Model {
+    emp_id: string;
+    user_id: string;
+    fname: string;
+    lname: string;
+    designation: string;
+    email: string;
+    phone: string;
+    gender: string;
+    rel_status: string;
+    bd: string;
+    address1: string;
+    address2: string;
+    city: string;
+    state: string;
+    zipcode: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+const phoneValidationRegex:RegExp = /\d{3}-\d{3}-\d{4}/
+const Employee = sequelize.define<EmployeeAttribute>("emp_detail", {
     emp_id: {
         type: INTEGER,
         allowNull: false,

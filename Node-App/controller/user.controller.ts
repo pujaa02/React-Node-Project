@@ -1,18 +1,26 @@
-import { INTEGER, Model, Optional } from "sequelize";
+import { INTEGER, Model, Optional, DataType, ModelCtor } from "sequelize";
 import sequelize from "../models/sequalize";
 import { DataTypes } from "sequelize";
-import { UserAttributes } from "../interfacefile";
 
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'user_id'> { }
-
-interface UserInstance extends Model<UserAttributes, UserCreationAttributes>, UserAttributes {
-    createdAt?: Date;
+export interface UserAttri extends Model {
+    id: string;
+    user_id: string;
+    fname: string;
+    lname: string;
+    email: string;
+    phone: string;
+    gender: string;
+    bd: string;
+    password: string
+    access_key: string;
+    isdeleted: string;
+    createdAt?: Date ;
     updatedAt?: Date;
 }
 
-const phoneValidationRegex = /\d{3}-\d{3}-\d{4}/
-const User = sequelize.define("users", {
+const phoneValidationRegex: RegExp = /\d{3}-\d{3}-\d{4}/
+const User = sequelize.define<UserAttri>("users", {
     user_id: {
         type: INTEGER,
         allowNull: false,

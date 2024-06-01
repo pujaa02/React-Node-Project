@@ -14,26 +14,13 @@ route.post(
 
   async (req: Request, res: Response) => {
     const data: FormData = req.body.formData;
-    const {
-      fname,
-      lname,
-      designation,
-      email,
-      phone,
-      gender,
-      rel_status,
-      address1,
-      address2,
-      city,
-      state,
-      zipcode,
-      bd,
-    } = data;
+    try {
+      await Employee.create({ fname: data.fname, lname: data.lname, designation: data.designation, email: data.email, phone: data.phone, gender: data.gender, rel_status: data.rel_status, address1: data.address1, address2: data.address2, city: data.city, state: data.state, zipcode: data.zipcode, bd: data.bd });
+      res.json({ msg: "success" });
+    } catch (error) {
+      res.json({ msg: "failed" });
+    }
 
-    const datainserted = await Employee.create({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zipcode: zipcode, bd: bd });
-    const emp_id: number = (datainserted?.dataValues.emp_id);
-
-    res.json({ msg: "success" });
   }
 );
 
