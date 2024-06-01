@@ -7,7 +7,7 @@ import { Validatepass } from "../interfacefile";
 
 const Password: React.FC = () => {
     const location = useLocation();
-    let navigate: NavigateFunction = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
     const [value, setValue] = useState("");
     const [error, setError] = useState("");
     const [PassData, setPassData] = useState<PassData>({
@@ -20,7 +20,7 @@ const Password: React.FC = () => {
     });
     useEffect(() => {
         if (location.state) {
-            let { user_id } = location.state as propState;
+            const { user_id } = location.state as propState;
             setValue(user_id);
         }
     }, [location.state])
@@ -35,7 +35,7 @@ const Password: React.FC = () => {
         }));
     };
     const validateform = (data: PassData) => {
-        let validaterr: Validatepass = {
+        const validaterr: Validatepass = {
             password: "",
             confirmpass: ""
         };
@@ -69,7 +69,7 @@ const Password: React.FC = () => {
                 }),
             })
                 .then(async (res) => {
-                    let result = await res.data.msg;
+                    const result = await res.data.msg;
                     if (result === "Success") {
                         navigate("/login");
                     } else {

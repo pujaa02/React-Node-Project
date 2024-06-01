@@ -1,5 +1,5 @@
 import * as express from "express";
-let route = express.Router();
+const route = express.Router();
 import { Request, Response } from "express";
 import User from "./user.controller";
 import parser from "body-parser";
@@ -27,7 +27,7 @@ function createRandomString(length: number): string {
 route.post("/register", async (req: Request, res: Response) => {
     const Registerresult: RegisterData = req.body.RegData;
 
-    let accesskey = createRandomString(12);
+    const accesskey = createRandomString(12);
 
     const {
         fname,
@@ -40,23 +40,23 @@ route.post("/register", async (req: Request, res: Response) => {
     try {
         const registerinsert: Model<UserAttributes, UserCreationAttributes> = await User.create({ fname: fname, lname: lname, email: email, phone: phone, gender: gender, bd: bd, access_key: accesskey });
         const finalres = JSON.parse(JSON.stringify(registerinsert))
-        let user_id = finalres.user_id;
+        const user_id = finalres.user_id;
         res.json({ message: "success", actcode: accesskey, user_id });
     } catch (error) {
         res.json({ message: "failed" });
     }
 })
 route.get("/activatecheck/:user_id", async (req: Request, res: Response) => {
-    let user_id: string = req.params.user_id;
+    const user_id: string = req.params.user_id;
 
-    let result = await User.findOne({ where: { user_id: user_id } })
+    const result = await User.findOne({ where: { user_id: user_id } })
     const finalres = result?.dataValues;
     const d1 = new Date();
     const d2 = new Date(finalres.createdAt);
     var diff = (d1.getTime() - d2.getTime()) / 1000;
     var diffsec = d1.getSeconds() - d2.getSeconds();
     diff /= 60 * 60;
-    let final2 = Math.round(diffsec);
+    const final2 = Math.round(diffsec);
     if (final2 <= 60 && final2 >= 0) {
         return res.json({ message: "success" })
     } else {
@@ -66,7 +66,7 @@ route.get("/activatecheck/:user_id", async (req: Request, res: Response) => {
 
 route.get("/deleteuser/:id", async (req: Request, res: Response) => {
     const user_id: string = req.params.id;
-    let result = await User.update({ isdeleted: 1, deleted_at: new Date() }, { where: { user_id: user_id } })
+    const result = await User.update({ isdeleted: 1, deleted_at: new Date() }, { where: { user_id: user_id } })
     res.json({ msg: "User Deleted !!" })
 });
 
@@ -95,10 +95,10 @@ route.get("/checkuser/:email/:pass", async (req: Request, res: Response) => {
         if (result?.dataValues) {
             const dbuser = result?.dataValues;
 
-            let isPassSame = await bcrypt.compare(pass, dbuser.password);
+            const isPassSame = await bcrypt.compare(pass, dbuser.password);
             if (isPassSame === true) {
 
-                let token: string = jwt.sign(
+                const token: string = jwt.sign(
                     { email: dbuser.email },
                     jwtsecret as string,
                     { expiresIn: "1h" },

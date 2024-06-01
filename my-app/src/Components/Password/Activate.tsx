@@ -6,13 +6,13 @@ import { propState } from "../interfacefile";
 
 
 const Activate: React.FC = () => {
-    let navigate: NavigateFunction = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
     const location = useLocation();
     const [display, setDisplay] = useState(false);
     const [error, setError] = useState("");
     if (location.state) {
-        let { user_id } = location.state as propState;
-        let { actcode } = location.state as propState;
+        const { user_id } = location.state as propState;
+        const { actcode } = location.state as propState;
         const passpage = () => {
             navigate(`/password`, { state: { user_id: user_id, actcode: actcode } })
         }

@@ -20,7 +20,11 @@ const ForgetPass: React.FC = () => {
             setError("Please Enter Valid Mail!!");
         } else {
             const result = await axios.get(`http://localhost:3036/finduser/${email}`, { withCredentials: true });
-            navigate("/password", { state: { user_id: result.data.id } });
+            if (result.data.id) {
+                navigate("/password", { state: { user_id: result.data.id } });
+            } else {
+                setError("No User Found!!")
+            }
         }
     }
     return (

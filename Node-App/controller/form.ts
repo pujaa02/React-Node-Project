@@ -1,5 +1,5 @@
 import * as express from "express";
-let route = express.Router();
+const route = express.Router();
 import { Request, Response } from "express";
 import checkAuth from "../middleware/checkauth";
 import parser from "body-parser";
@@ -30,7 +30,7 @@ route.post(
       bd,
     } = data;
 
-    let datainserted = await Employee.create({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zipcode: zipcode, bd: bd });
+    const datainserted = await Employee.create({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zipcode: zipcode, bd: bd });
     const emp_id: number = (datainserted?.dataValues.emp_id);
 
     res.json({ msg: "success" });

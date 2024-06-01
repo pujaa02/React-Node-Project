@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
 import axios from "axios";
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
     }));
   };
   const validateform = (data: LoginData) => {
-    let validaterr: Validatelogin = {
+    const validaterr: Validatelogin = {
       pass: "",
       mail: ""
     };

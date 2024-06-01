@@ -24,7 +24,7 @@ const Updateform: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     if (location.state) {
-        let { id } = location.state as propState;
+        const { id } = location.state as propState;
 
         const getempdata = async () => {
             const response = await axios.get(`http://localhost:3036/finduser/${id}`);
@@ -57,7 +57,7 @@ const Updateform: React.FC = () => {
                 }),
             })
                 .then(async (res) => {
-                    let result = await res.data;
+                    const result = await res.data;
                     if (result.msg === "success") {
                         navigate('/fetchemp');
                     }

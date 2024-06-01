@@ -7,7 +7,7 @@ import { ValidateRegdata } from "../interfacefile";
 
 const Register: React.FC = () => {
 
-  let navigate: NavigateFunction = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
   const [display, setDisplay] = useState(false);
   const [error, setError] = useState("");
   const [validaterr, setValidateerr] = useState<ValidateRegdata>({
@@ -41,7 +41,7 @@ const Register: React.FC = () => {
     }));
   };
   const validateform = (data: RegData) => {
-    let validaterr: ValidateRegdata = {
+    const validaterr: ValidateRegdata = {
       fn: "",
       ln: "",
       mail: "",
@@ -92,7 +92,7 @@ const Register: React.FC = () => {
         }),
       })
         .then(async (res) => {
-          let result = await res.data;
+          const result = await res.data;
           if (result.message === "success") {
             setid(result.user_id);
             setactcode(result.actcode);

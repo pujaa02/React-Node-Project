@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import main from "./routes/router";
 dotenv.config();
-let port = process.env.PORT;
+const port = process.env.PORT;
 import cors from "cors";
 
 

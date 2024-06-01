@@ -22,7 +22,7 @@ const Form: React.FC = () => {
     zipcode: "",
     bd: "",
   });
-  let token = document.cookie
+  const token = document.cookie
   if (token) {
     const handleChange = (
       e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -48,7 +48,7 @@ const Form: React.FC = () => {
         }),
       })
         .then(async (res) => {
-          let result = await res.data;
+          const result = await res.data;
           if (result.msg === "success") {
             navigate('/fetchemp');
           }
@@ -57,7 +57,7 @@ const Form: React.FC = () => {
         .catch((err) => console.log(err));
     };
     const logout = () => {
-      let token = Cookies.remove("token");
+      const token = Cookies.remove("token");
       if (!document.cookie) {
         navigate("/login")
       }
