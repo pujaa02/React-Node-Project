@@ -27,10 +27,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
-let route = express.Router();
+const route = express.Router();
 const form_controller_1 = __importDefault(require("./form.controller"));
 route.get("/getallemp", async (req, res) => {
-    let query = await form_controller_1.default.findAll();
+    const query = await form_controller_1.default.findAll();
     res.json({ result: query });
 });
 exports.default = route;

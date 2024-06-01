@@ -9,7 +9,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const router_1 = __importDefault(require("./routes/router"));
 dotenv_1.default.config();
-let port = process.env.PORT;
+const port = process.env.PORT;
 const cors_1 = __importDefault(require("cors"));
 app.use((0, cookie_parser_1.default)());
 // app.set("view engine", "ejs");

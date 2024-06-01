@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
-let route = express.Router();
+const route = express.Router();
 const user_controller_1 = __importDefault(require("./user.controller"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
@@ -45,12 +45,12 @@ function createRandomString(length) {
 }
 route.post("/register", async (req, res) => {
     const Registerresult = req.body.RegData;
-    let accesskey = createRandomString(12);
+    const accesskey = createRandomString(12);
     const { fname, lname, email, phone, gender, bd } = Registerresult;
     try {
         const registerinsert = await user_controller_1.default.create({ fname: fname, lname: lname, email: email, phone: phone, gender: gender, bd: bd, access_key: accesskey });
         const finalres = JSON.parse(JSON.stringify(registerinsert));
-        let user_id = finalres.user_id;
+        const user_id = finalres.user_id;
         res.json({ message: "success", actcode: accesskey, user_id });
     }
     catch (error) {
@@ -58,15 +58,15 @@ route.post("/register", async (req, res) => {
     }
 });
 route.get("/activatecheck/:user_id", async (req, res) => {
-    let user_id = req.params.user_id;
-    let result = await user_controller_1.default.findOne({ where: { user_id: user_id } });
+    const user_id = req.params.user_id;
+    const result = await user_controller_1.default.findOne({ where: { user_id: user_id } });
     const finalres = result?.dataValues;
     const d1 = new Date();
     const d2 = new Date(finalres.createdAt);
     var diff = (d1.getTime() - d2.getTime()) / 1000;
     var diffsec = d1.getSeconds() - d2.getSeconds();
     diff /= 60 * 60;
-    let final2 = Math.round(diffsec);
+    const final2 = Math.round(diffsec);
     if (final2 <= 60 && final2 >= 0) {
         return res.json({ message: "success" });
     }
@@ -76,7 +76,7 @@ route.get("/activatecheck/:user_id", async (req, res) => {
 });
 route.get("/deleteuser/:id", async (req, res) => {
     const user_id = req.params.id;
-    let result = await user_controller_1.default.update({ isdeleted: 1, deleted_at: new Date() }, { where: { user_id: user_id } });
+    const result = await user_controller_1.default.update({ isdeleted: 1, deleted_at: new Date() }, { where: { user_id: user_id } });
     res.json({ msg: "User Deleted !!" });
 });
 route.post("/password/:user_id", async (req, res) => {
@@ -102,9 +102,9 @@ route.get("/checkuser/:email/:pass", async (req, res) => {
         const result = await user_controller_1.default.findOne({ where: { email: email } });
         if (result?.dataValues) {
             const dbuser = result?.dataValues;
-            let isPassSame = await bcryptjs_1.default.compare(pass, dbuser.password);
+            const isPassSame = await bcryptjs_1.default.compare(pass, dbuser.password);
             if (isPassSame === true) {
-                let token = jsonwebtoken_1.default.sign({ email: dbuser.email }, jwtsecret, { expiresIn: "1h" });
+                const token = jsonwebtoken_1.default.sign({ email: dbuser.email }, jwtsecret, { expiresIn: "1h" });
                 res.cookie("token", token, { httpOnly: false, secure: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' }).json({ msg: "Success", token });
             }
             else {

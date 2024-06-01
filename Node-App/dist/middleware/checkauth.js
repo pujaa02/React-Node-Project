@@ -9,7 +9,7 @@ dotenv_1.default.config();
 function checkAuth(req, res, next) {
     try {
         var token2 = req.cookies.token;
-        let key = process.env.JWT_SECRET_KEY;
+        const key = process.env.JWT_SECRET_KEY;
         const verified = jsonwebtoken_1.default.verify(token2, key);
         if (verified) {
             next();

@@ -1,1 +1,0 @@
-{"version":3,"file":"get_user.js","sourceRoot":"","sources":["../../../controller/ajaxinsertupdate/get_user.ts"],"names":[],"mappings":";;;;;AAAA,qEAAuC;AAKvC,KAAK,UAAU,QAAQ,CAAC,GAAY,EAAE,GAAa;IACjD,IAAI,KAAK,GAAiB,MAAM,kBAAG,CAAC,MAAM,CAAC,4CAA4C,CAAC,CAAE;IAC1F,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,CAAC;AAClB,CAAC;AACD,kBAAe,QAAQ,CAAC"}

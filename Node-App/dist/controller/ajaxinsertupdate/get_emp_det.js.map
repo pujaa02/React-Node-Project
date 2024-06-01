@@ -1,1 +1,0 @@
-{"version":3,"file":"get_emp_det.js","sourceRoot":"","sources":["../../../controller/ajaxinsertupdate/get_emp_det.ts"],"names":[],"mappings":";;;;;AAAA,qEAAuC;AAKvC,KAAK,UAAU,OAAO,CAAC,GAAY,EAAE,GAAa;IAChD,IAAI,KAAK,GAAiB,MAAM,kBAAG,CAAC,MAAM,CAAC,2BAA2B,CAAC,CAAE;IACzE,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,CAAC;AAClB,CAAC;AACD,kBAAe,OAAO,CAAC"}

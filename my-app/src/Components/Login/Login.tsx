@@ -93,8 +93,6 @@ const Login: React.FC = () => {
             Login
           </p>
         </div>
-
-
         <div className="flex">
           <p>Don't have an Acoount? <Link to="/">Register</Link></p>
         </div>
