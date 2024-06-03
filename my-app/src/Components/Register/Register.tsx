@@ -4,6 +4,7 @@ import axios from "axios";
 import "./register.css";
 import { RegData } from "../interfacefile";
 import { ValidateRegdata } from "../interfacefile";
+import { kMaxLength } from "buffer";
 
 const Register: React.FC = () => {
 
@@ -73,24 +74,15 @@ const Register: React.FC = () => {
     }
     return validaterr;
   }
-  const handleRegister = (e: FormEvent) => {
+  const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
     const newerrors = validateform(RegData);
     setValidateerr(newerrors);
+    console.log(RegData);
 
     if (newerrors.fn.length === 0 && newerrors.ln.length === 0 && newerrors.mail.length === 0 && newerrors.number.length === 0 && newerrors.gen.length === 0 && newerrors.dob.length === 0) {
-      axios({
-        url: "http://localhost:3036/register",
-        method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        data: JSON.stringify({
-          RegData
-        }),
-      })
+      await axios.post('http://localhost:3036/register', RegData)
         .then(async (res) => {
           const result = await res.data;
           if (result.message === "success") {
@@ -180,7 +172,7 @@ const Register: React.FC = () => {
             {validaterr.dob && <span className="error-message">{validaterr.dob}</span>}
           </div>
           <div className="formgender">
-            <label >Gender:</label> <br />
+            <label id="genderbold">Gender:</label> <br />
             <div className="genderflex">
               <div className="radio">
                 <input
@@ -190,9 +182,9 @@ const Register: React.FC = () => {
                   value="male"
                   checked={RegData.gender === "male"}
                   onChange={handleChange}
-                  className="form-control"
+                  className="form-check-input"
                 />
-                <label htmlFor="male">Male</label>
+                <label htmlFor="male" className="form-check-label">Male</label>
               </div>
               <div className="radio">
                 <input
@@ -202,9 +194,9 @@ const Register: React.FC = () => {
                   value="female"
                   onChange={handleChange}
                   checked={RegData.gender === "female"}
-                  className="form-control"
+                  className="form-check-input"
                 />
-                <label htmlFor="female">Female</label>
+                <label htmlFor="female" className="form-check-label">Female</label>
               </div>
               <div className="radio">
                 <input
@@ -214,9 +206,9 @@ const Register: React.FC = () => {
                   value="other"
                   onChange={handleChange}
                   checked={RegData.gender === "other"}
-                  className="form-control"
+                  className="form-check-input"
                 />
-                <label htmlFor="other">Other</label>
+                <label htmlFor="other" className="form-check-label">Other</label>
               </div>
             </div>
             {validaterr.gen && <span className="error-message">{validaterr.gen}</span>}

@@ -43,8 +43,9 @@ function createRandomString(length) {
     }
     return result;
 }
-route.post("/register", async (req, res) => {
-    const Registerresult = req.body.RegData;
+// route.post("/register",
+const register = async (req, res) => {
+    const Registerresult = req.body;
     const accesskey = createRandomString(12);
     const { fname, lname, email, phone, gender, bd } = Registerresult;
     try {
@@ -56,14 +57,14 @@ route.post("/register", async (req, res) => {
     catch (error) {
         res.json({ message: "failed" });
     }
-});
-route.get("/activatecheck/:user_id", async (req, res) => {
+};
+// route.get("/activatecheck/:user_id", 
+const activatecheck = async (req, res) => {
     const user_id = req.params.user_id;
     const result = await user_controller_1.default.findOne({ where: { user_id: user_id } });
-    const finalres = result?.dataValues;
     const d1 = new Date();
-    if (finalres) {
-        const d2 = new Date(finalres.createdAt);
+    if (result) {
+        const d2 = new Date(result?.dataValues.createdAt);
         var diff = (d1.getTime() - d2.getTime()) / 1000;
         var diffsec = d1.getSeconds() - d2.getSeconds();
         diff /= 60 * 60;
@@ -75,15 +76,17 @@ route.get("/activatecheck/:user_id", async (req, res) => {
             return res.json({ message: "failed" });
         }
     }
-});
-route.get("/deleteuser/:id", async (req, res) => {
+};
+// route.get("/deleteuser/:id", 
+const deleteuser = async (req, res) => {
     const user_id = req.params.id;
     await user_controller_1.default.update({ isdeleted: 1, deleted_at: new Date() }, { where: { user_id: user_id } });
     res.json({ msg: "User Deleted !!" });
-});
-route.post("/password/:user_id", async (req, res) => {
+};
+// route.post("/password/:user_id",
+const password = async (req, res) => {
     const user_id = req.params.user_id;
-    const { pass, repass } = req.body.PassData;
+    const { pass } = req.body.PassData;
     bcryptjs_1.default.hash(pass, 7, async (error, hashedPassword) => {
         if (error) {
             console.log(error);
@@ -96,17 +99,17 @@ route.post("/password/:user_id", async (req, res) => {
             res.json({ msg: "Something Went Wrong!!" });
         }
     });
-});
-route.get("/checkuser/:email/:pass", async (req, res) => {
+};
+// route.get("/checkuser/:email/:pass",
+const checkuser = async (req, res) => {
     const email = req.params.email;
     const pass = req.params.pass;
     try {
         const result = await user_controller_1.default.findOne({ where: { email: email } });
         if (result?.dataValues) {
-            const dbuser = result?.dataValues;
-            const isPassSame = await bcryptjs_1.default.compare(pass, dbuser.password);
+            const isPassSame = await bcryptjs_1.default.compare(pass, result?.dataValues.password);
             if (isPassSame === true) {
-                const token = jsonwebtoken_1.default.sign({ email: dbuser.email }, jwtsecret, { expiresIn: "1h" });
+                const token = jsonwebtoken_1.default.sign({ email: result?.dataValues.email }, jwtsecret, { expiresIn: "1h" });
                 res.cookie("token", token, { httpOnly: false, secure: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' }).json({ msg: "Success", token });
             }
             else {
@@ -120,8 +123,9 @@ route.get("/checkuser/:email/:pass", async (req, res) => {
     catch (error) {
         res.json({ msg: "No data found!!" });
     }
-});
-route.get("/finduser/:email", async (req, res) => {
+};
+// route.get("/finduser/:email",
+const finduser = async (req, res) => {
     const email = req.params.email;
     try {
         const result = await user_controller_1.default.findOne({ where: { email: email, isdeleted: 0 } });
@@ -136,6 +140,6 @@ route.get("/finduser/:email", async (req, res) => {
     catch (error) {
         res.json({ msg: "No data found!!" });
     }
-});
-exports.default = route;
+};
+exports.default = { register, activatecheck, deleteuser, password, checkuser, finduser };
 //# sourceMappingURL=userauthenticate.js.map

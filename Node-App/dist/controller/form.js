@@ -32,12 +32,17 @@ const body_parser_1 = __importDefault(require("body-parser"));
 route.use(body_parser_1.default.json());
 route.use(body_parser_1.default.urlencoded({ extended: false }));
 const form_controller_1 = __importDefault(require("./form.controller"));
-route.post("/submit", async (req, res) => {
+// route.post(
+//   "/submit",
+const submit = async (req, res) => {
     const data = req.body.formData;
-    const { fname, lname, designation, email, phone, gender, rel_status, address1, address2, city, state, zipcode, bd, } = data;
-    const datainserted = await form_controller_1.default.create({ fname: fname, lname: lname, designation: designation, email: email, phone: phone, gender: gender, rel_status: rel_status, address1: address1, address2: address2, city: city, state: state, zipcode: zipcode, bd: bd });
-    const emp_id = (datainserted?.dataValues.emp_id);
-    res.json({ msg: "success" });
-});
-exports.default = route;
+    try {
+        await form_controller_1.default.create({ fname: data.fname, lname: data.lname, designation: data.designation, email: data.email, phone: data.phone, gender: data.gender, rel_status: data.rel_status, address1: data.address1, address2: data.address2, city: data.city, state: data.state, zipcode: data.zipcode, bd: data.bd });
+        res.json({ msg: "success" });
+    }
+    catch (error) {
+        res.json({ msg: "failed" });
+    }
+};
+exports.default = { submit };
 //# sourceMappingURL=form.js.map

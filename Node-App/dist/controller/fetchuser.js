@@ -29,9 +29,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 const route = express.Router();
 const form_controller_1 = __importDefault(require("./form.controller"));
-route.get("/getallemp", async (req, res) => {
+// route.get(
+//     "/getallemp",
+const getallemp = async (req, res) => {
     const query = await form_controller_1.default.findAll();
     res.json({ result: query });
-});
-exports.default = route;
+};
+exports.default = { getallemp };
 //# sourceMappingURL=fetchuser.js.map

@@ -46,7 +46,8 @@ const Login: React.FC = () => {
       const result = await axios.get(`http://localhost:3036/checkuser/${LoginData.email}/${LoginData.password}`, { withCredentials: true });
       const res = result.data.msg;
       if (res === "Success") {
-        navigate("/form");
+        // navigate("/form");
+        navigate("/home")
       } else if (res === "wrong Data") {
         setError("wrong Data!!")
       } else {

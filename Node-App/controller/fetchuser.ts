@@ -4,13 +4,12 @@ import { Request, Response } from "express";
 import Employee, { EmployeeAttribute } from "./form.controller";
 
 
-route.get(
-    "/getallemp",
-    async (req: Request, res: Response) => {
-        const query: EmployeeAttribute[] = await Employee.findAll()
-        res.json({ result: query });
-    }
-);
+// route.get(
+//     "/getallemp",
+const getallemp = async (req: Request, res: Response) => {
+    const query: EmployeeAttribute[] = await Employee.findAll()
+    res.json({ result: query });
+}
 
 
-export default route;
+export default { getallemp };

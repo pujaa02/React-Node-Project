@@ -17,19 +17,17 @@ legend {
 .row {
   display: flex;
 }
-.formgender {
-  margin-top: 10px;
-  padding: 10px;
-  font-weight: 500;
-  margin-left: 45px;
-}
-.formgender label{
-  margin-right: 10px;
+#genderbold {
+  font-weight: bold;
 }
 .genderflex {
   display: flex;
-  margin-top: 10px;
 }
+.radio label {
+  padding-right: 10px;
+  padding-left: 5px;
+}
+
 .register-form .form-group label {
   display: block;
   margin-bottom: 5px;

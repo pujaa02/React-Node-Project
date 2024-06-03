@@ -1,5 +1,5 @@
 import React from "react";
-import {  Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
@@ -10,6 +10,7 @@ import Fetchemp from "./Components/EmployessShow/Fetchemp";
 import Updateform from "./Components/UpdateForm/Updateform";
 import Wrong from "./Components/wrongurl/Wrong";
 import ForgetPass from "./Components/forgetpassword/ForgetPass";
+import Home from "./Components/Homepage/Home";
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
         <Route path="/password" element={<Password />}></Route>
         <Route path="/forget" element={<ForgetPass />}></Route>
         <Route path="*" element={<Wrong />}></Route>
+        <Route path="/home" element={<Home />}></Route>
       </Routes>
     </div>
   );

@@ -70,3 +70,45 @@ export interface Value {
     id: string;
     code: string;
 }
+export interface arrival {
+    book_img: string;
+    prime_book_id: number;
+}
+export interface recommendeddata {
+    prime_book_id: number;
+    rating: number;
+    book_title: string;
+    author_name: string;
+    book_img: string;
+    book_publication_year: number;
+    genre_id: number;
+    genre_name: string;
+}
+
+export interface recent {
+    prime_book_id: number
+    book_id: number;
+    borrow_date: Date | string;
+    author_name: string;
+    book_img: string;
+    book_publication_year: number;
+    book_title: string;
+    genre_id: number;
+    genre_name: string;
+    rating: number;
+}
+export interface genre {
+    genre_id: number;
+    genre_name: string
+    Fiction: string
+}
+export interface allbook {
+    prime_book_id: number;
+    author_name: string
+    book_img: string;
+    book_publication_year: number;
+    book_title: string;
+    genre_id: number
+    genre_name: string;
+    rating: number;
+}
