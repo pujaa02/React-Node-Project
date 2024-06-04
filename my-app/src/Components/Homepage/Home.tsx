@@ -7,14 +7,14 @@ import { arrival, recommendeddata, recent, genre, allbook } from "../interfacefi
 const Home = () => {
     const token = document.cookie;
     const [translate, setTranslate] = useState<number>(0);
-    const [newarrbook, setnewarrival] = useState([]);
-    const [recommeded, setrecoomeded] = useState([]);
-    const [recent, setrecent] = useState([]);
-    const [genre, setgenre] = useState([]);
-    const [book, setbook] = useState([])
+    const [newarrbook, setnewarrival] = useState<arrival[]>([]);
+    const [recommeded, setrecoomeded] = useState<recommendeddata[]>([]);
+    const [recent, setrecent] = useState<recent[]>([]);
+    const [genre, setgenre] = useState<genre[]>([]);
+    const [book, setbook] = useState<allbook[]>([]);
 
-    const fetcharrival = async () => {
-        const result = await axios.get(`http://localhost:3036/getarrival`, { withCredentials: true });
+    const fetchdata = async () => {
+        const result = await axios.get(`http://localhost:3036/getdata/${null}`, { withCredentials: true });
         console.log(result.data.newarrivalbooks);
         setrecoomeded(result.data.recommended)
         setnewarrival(result.data.newarrivalbooks);
@@ -23,11 +23,8 @@ const Home = () => {
         setbook(result.data.allbook)
     }
     useEffect(() => {
-        fetcharrival();
+        fetchdata();
     }, [])
-    console.log(genre, "genre");
-    console.log(book, "book");
-
 
     if (token) {
         const handleClickBtn = (direction: string) => {
@@ -127,7 +124,7 @@ const Home = () => {
                             <div className="framecontent">
                                 <p className="text-truncate framecontentp1">{data.book_title}</p>
                                 <p className="framecontentp2">{`${data.author_name} ${data.book_publication_year}`}</p>
-                                <p className="framecontentp3">{`${data.rating} / 5`}</p>
+                                {data.rating > 0 ? <p className="framecontentp3">{`${data.rating} / 5`}</p> : <p className="framecontentp3">{`No Rating Exist!!`}</p>}
                             </div>
                         </div>
                     ))}
@@ -139,23 +136,14 @@ const Home = () => {
                 </div>
                 <div id="recentbooks">
                     {recent.map((data: recent) => (
-                        data.rating > 0
-                            ? <div className="frameofrecent">
-                                <img src={require(`.${data.book_img}`)} alt="none" />
-                                <div className="framecontent">
-                                    <p className="text-truncate framecontentp1">{data.book_title}</p>
-                                    <p className="framecontentp2">{`${data.author_name} ${data.book_publication_year}`}</p>
-                                    <p className="framecontentp3">{`${data.rating} / 5`}</p>
-                                </div>
+                        <div className="frameofrecent">
+                            <img src={require(`.${data.book_img}`)} alt="none" />
+                            <div className="framecontent">
+                                <p className="text-truncate framecontentp1">{data.book_title}</p>
+                                <p className="framecontentp2">{`${data.author_name} ${data.book_publication_year}`}</p>
+                                {data.rating > 0 ? <p className="framecontentp3">{`${data.rating} / 5`}</p> : <p className="framecontentp3">{`No Rating Exist!!`}</p>}
                             </div>
-                            : <div className="frameofrecent">
-                                <img src={require(`.${data.book_img}`)} alt="none" />
-                                <div className="framecontent">
-                                    <p className="text-truncate framecontentp1">{data.book_title}</p>
-                                    <p className="framecontentp2">{`${data.author_name} ${data.book_publication_year}`}</p>
-                                    <p className="framecontentp3">{`No Rating Exist!!`}</p>
-                                </div>
-                            </div>
+                        </div>
                     ))}
                 </div>
 
@@ -165,10 +153,20 @@ const Home = () => {
                 <div id="container">
                     {genre.map((data: genre) => (
                         <div className="categoryname">
-                            <p>{data.genre_name}</p>
-                            {/* {book.filter((data2: allbook) => {
-                                return data2.genre_name === data.genre_name
-                            })} */}
+                            <p className="genrename">{data.genre_name}</p>
+                            <div className="categoryrow">
+                                {book.map((data2) =>
+                                    data2.genre_name === data.genre_name &&
+                                    <div className="categorycol">
+                                        <img src={require(`.${data2.book_img}`)} alt="none" />
+                                        <div className="framecontent">
+                                            <p className="text-truncate framecontentp1">{data2.book_title}</p>
+                                            <p className="framecontentp2">{`${data2.author_name} ${data2.book_publication_year}`}</p>
+                                            {data2.rating > 0 ? <p className="framecontentp3">{`${data2.rating} / 5`}</p> : <p className="framecontentp3">{`No Rating Exist!!`}</p>}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     ))}
                 </div>

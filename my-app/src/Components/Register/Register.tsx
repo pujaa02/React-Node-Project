@@ -4,7 +4,6 @@ import axios from "axios";
 import "./register.css";
 import { RegData } from "../interfacefile";
 import { ValidateRegdata } from "../interfacefile";
-import { kMaxLength } from "buffer";
 
 const Register: React.FC = () => {
 
@@ -42,14 +41,7 @@ const Register: React.FC = () => {
     }));
   };
   const validateform = (data: RegData) => {
-    const validaterr: ValidateRegdata = {
-      fn: "",
-      ln: "",
-      mail: "",
-      number: "",
-      gen: "",
-      dob: ""
-    };
+    const validaterr: ValidateRegdata = {} as ValidateRegdata;
     if (!data.fname.trim()) {
       validaterr.fn = "FirstName is Required!!"
     }
@@ -79,25 +71,32 @@ const Register: React.FC = () => {
     setError("");
     const newerrors = validateform(RegData);
     setValidateerr(newerrors);
-    console.log(RegData);
 
-    if (newerrors.fn.length === 0 && newerrors.ln.length === 0 && newerrors.mail.length === 0 && newerrors.number.length === 0 && newerrors.gen.length === 0 && newerrors.dob.length === 0) {
-      await axios.post('http://localhost:3036/register', RegData)
-        .then(async (res) => {
-          const result = await res.data;
-          if (result.message === "success") {
-            setid(result.user_id);
-            setactcode(result.actcode);
-            setDisplay(true);
-          } else if (result.message === "failed") {
-            setError("something wrong!!")
-          }
+    // if (newerrors.fn.length === 0 && newerrors.ln.length === 0 && newerrors.mail.length === 0 && newerrors.number.length === 0 && newerrors.gen.length === 0 && newerrors.dob.length === 0) {
+    if ((Object.values(newerrors)).length === 0) {
+      const result = await axios.get(`http://localhost:3036/finduser/${RegData.email}`, { withCredentials: true });
+      const checkuser = result.data.msg;
+      console.log(checkuser);
+      if (checkuser === "Success") {
+        setError("Email Exists!!")
+      } else {
+        await axios.post('http://localhost:3036/register', RegData)
+          .then(async (res) => {
+            const result = await res.data;
+            if (result.message === "success") {
+              setid(result.user_id);
+              setactcode(result.actcode);
+              setDisplay(true);
+            } else if (result.message === "failed") {
+              setError("something wrong!!")
+            }
 
-        })
-        .catch((err) => console.log(err));
+          })
+          .catch((err) => console.log(err));
+      }
+
     } else {
       console.log("validation error!!");
-
     }
 
 
@@ -107,7 +106,7 @@ const Register: React.FC = () => {
       <h2>Registration Page</h2>
       <form onSubmit={handleRegister} className="register-form">
         <div className="row">
-          <div className="form-group">
+          <div className="col form-group">
             <label htmlFor="fname">First Name:</label>
             <input
               type="text"
@@ -119,7 +118,7 @@ const Register: React.FC = () => {
             />
             {validaterr.fn && <span className="error-message">{validaterr.fn}</span>}
           </div>
-          <div className="form-group">
+          <div className="col form-group">
             <label htmlFor="lname">Last Name:</label>
             <input
               type="text"
@@ -133,7 +132,7 @@ const Register: React.FC = () => {
           </div>
         </div>
         <div className="row">
-          <div className="form-group">
+          <div className="col form-group">
             <label htmlFor="email">Email:</label>
             <input
               type="email"
@@ -145,7 +144,7 @@ const Register: React.FC = () => {
             />
             {validaterr.mail && <span className="error-message">{validaterr.mail}</span>}
           </div>
-          <div className="form-group">
+          <div className="col form-group">
             <label htmlFor="phone">Phone:</label>
             <input
               type="text"
@@ -159,7 +158,7 @@ const Register: React.FC = () => {
           </div>
         </div>
         <div className="row">
-          <div className="form-group">
+          <div className="col form-group">
             <label htmlFor="bd">DOB:</label>
             <input
               type="date"
@@ -171,7 +170,7 @@ const Register: React.FC = () => {
             /> <br />
             {validaterr.dob && <span className="error-message">{validaterr.dob}</span>}
           </div>
-          <div className="formgender">
+          <div className="col formgender">
             <label id="genderbold">Gender:</label> <br />
             <div className="genderflex">
               <div className="radio">

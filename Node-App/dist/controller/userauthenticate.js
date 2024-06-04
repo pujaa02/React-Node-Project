@@ -110,7 +110,7 @@ const checkuser = async (req, res) => {
             const isPassSame = await bcryptjs_1.default.compare(pass, result?.dataValues.password);
             if (isPassSame === true) {
                 const token = jsonwebtoken_1.default.sign({ email: result?.dataValues.email }, jwtsecret, { expiresIn: "1h" });
-                res.cookie("token", token, { httpOnly: false, secure: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' }).json({ msg: "Success", token });
+                res.cookie("token", token, { httpOnly: false, secure: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' }).json({ msg: "Success", token, user_id: result?.dataValues.user_id });
             }
             else {
                 res.json({ msg: "wrong Data" });

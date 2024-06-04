@@ -4,7 +4,7 @@ import form from "../controller/form";
 import userauthenticate from "../controller/userauthenticate";
 import fetchuser from "../controller/fetchuser";
 import updateform from "../controller/updateform";
-import bookhome from "../controller/bookhome"
+import bookhome from "../controller/bookhome";
 
 route.post("/register", userauthenticate.register);
 route.get("/activatecheck/:user_id", userauthenticate.activatecheck);
@@ -20,11 +20,7 @@ route.get("/finduser/:id", updateform.finduser);
 route.post("/updateemp/:id", updateform.updateemp);
 route.get("/deleteemp/:id", updateform.deletemp);
 
-route.get("/getarrival", bookhome.getarrival);
-// route.get("/recent", bookhome.recent);
-// route.get("/genre", bookhome.genre);
-// route.get("/allbook", bookhome.allbook);
-// route.get("/rating", bookhome.rating);
+route.get("/getdata/:user_id", bookhome.getdata);
 
 
 export default route;

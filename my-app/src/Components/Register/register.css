@@ -4,6 +4,7 @@
   border: 1px solid #ced4da;
   border-radius: 10px;
   background-color: #ffffff;
+  height: 500px;
 }
 
 legend {
@@ -34,7 +35,9 @@ legend {
   font-weight: 500;
   padding-right: 5px;
 }
-
+.row .formgender {
+  margin-top: 15px;
+}
 .register-form .form-group input,
 .register-form .form-group textarea,
 .register-form .form-group select {

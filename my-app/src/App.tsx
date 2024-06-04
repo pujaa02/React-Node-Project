@@ -11,6 +11,7 @@ import Updateform from "./Components/UpdateForm/Updateform";
 import Wrong from "./Components/wrongurl/Wrong";
 import ForgetPass from "./Components/forgetpassword/ForgetPass";
 import Home from "./Components/Homepage/Home";
+import Bookshelf from "./Components/Homepage/bookshelf";
 
 const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
         <Route path="/forget" element={<ForgetPass />}></Route>
         <Route path="*" element={<Wrong />}></Route>
         <Route path="/home" element={<Home />}></Route>
+        <Route path="/bookmyshelf" element={<Bookshelf />}></Route>
       </Routes>
     </div>
   );

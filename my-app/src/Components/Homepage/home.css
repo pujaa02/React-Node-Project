@@ -308,9 +308,10 @@
   width: 1350px;
   top: 1010px;
   left: 44px;
+  /* display: flex; */
 }
 
-.categoryname p {
+.genrename{
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;

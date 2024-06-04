@@ -40,14 +40,14 @@ const Login: React.FC = () => {
     return validaterr;
   }
   const handleSubmit = async () => {
-    const newerrors = validateform(LoginData);
+    const newerrors: Validatelogin = validateform(LoginData);
     setValidateerr(newerrors);
     if (newerrors.mail.length === 0 && newerrors.pass.length === 0) {
       const result = await axios.get(`http://localhost:3036/checkuser/${LoginData.email}/${LoginData.password}`, { withCredentials: true });
-      const res = result.data.msg;
+      const res: string = result.data.msg;
       if (res === "Success") {
-        // navigate("/form");
-        navigate("/home")
+        navigate("/form");
+        // navigate("/bookmyshelf", { state: { user_id: result.data.user_id } });
       } else if (res === "wrong Data") {
         setError("wrong Data!!")
       } else {

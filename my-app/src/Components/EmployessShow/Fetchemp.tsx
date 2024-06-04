@@ -18,7 +18,8 @@ const Fetchemp: React.FC = () => {
     }, []);
     if (cookie) {
         const updateuser = (id: number) => {
-            navigate('/updateform', { state: { id: id } })
+            console.log(id);
+            navigate('/updateform', { state: { id: id } });
         }
         const deleteuser = async (id: number) => {
             await axios.get(`http://localhost:3036/deleteemp/${id}`, { withCredentials: true });

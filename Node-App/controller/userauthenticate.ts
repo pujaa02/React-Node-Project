@@ -105,7 +105,7 @@ const checkuser = async (req: Request, res: Response) => {
                     jwtsecret as string,
                     { expiresIn: "1h" },
                 );
-                res.cookie("token", token, { httpOnly: false, secure: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' }).json({ msg: "Success", token });
+                res.cookie("token", token, { httpOnly: false, secure: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' }).json({ msg: "Success", token, user_id: result?.dataValues.user_id });
             } else {
                 res.json({ msg: "wrong Data" })
             }

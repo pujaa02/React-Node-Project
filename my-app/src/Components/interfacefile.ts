@@ -103,6 +103,7 @@ export interface genre {
     Fiction: string
 }
 export interface allbook {
+    map(arg0: (data3: allbook) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
     prime_book_id: number;
     author_name: string
     book_img: string;
@@ -111,4 +112,42 @@ export interface allbook {
     genre_id: number
     genre_name: string;
     rating: number;
+}
+export interface watchlist {
+    prime_book_id: number;
+    rating: number;
+    author_name: string;
+    book_img: string;
+    book_publication_year: number;
+    book_title: string;
+    genre_id: number;
+    genre_name: string;
+    reader_id: number;
+}
+export interface finalissuebook {
+    prime_book_id: number;
+    author_name: string;
+    book_img: string;
+    book_publication_year: number;
+    book_title: string;
+    genre_id: number;
+    status: string;
+    rating: number;
+    borrow_date: Date | string;
+    return_date: Date | string
+}
+export interface validateformdata {
+    fn: string
+    ln: string
+    desig: string
+    mail: string
+    mobile: number | string
+    gen: string
+    rel: string
+    add1: string
+    add2: string
+    city: string
+    state: string
+    zip: string;
+    dob: string;
 }

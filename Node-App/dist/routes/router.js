@@ -44,10 +44,6 @@ route.get("/getallemp", fetchuser_1.default.getallemp);
 route.get("/finduser/:id", updateform_1.default.finduser);
 route.post("/updateemp/:id", updateform_1.default.updateemp);
 route.get("/deleteemp/:id", updateform_1.default.deletemp);
-route.get("/getarrival", bookhome_1.default.getarrival);
-// route.get("/recent", bookhome.recent);
-// route.get("/genre", bookhome.genre);
-// route.get("/allbook", bookhome.allbook);
-// route.get("/rating", bookhome.rating);
+route.get("/getdata/:user_id", bookhome_1.default.getdata);
 exports.default = route;
 //# sourceMappingURL=router.js.map
