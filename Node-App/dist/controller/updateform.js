@@ -31,7 +31,7 @@ const route = express.Router();
 const form_controller_1 = __importDefault(require("./form.controller"));
 // route.get(
 //     "/finduser/:id",
-const finduser = async (req, res) => {
+const findemp = async (req, res) => {
     const id = req.params.id;
     const query = await form_controller_1.default.findOne({ where: { emp_id: id } });
     res.json({ result: query });
@@ -61,5 +61,5 @@ const deletemp = async (req, res) => {
         res.json({ msg: "failed" });
     }
 };
-exports.default = { finduser, updateemp, deletemp };
+exports.default = { findemp, updateemp, deletemp };
 //# sourceMappingURL=updateform.js.map

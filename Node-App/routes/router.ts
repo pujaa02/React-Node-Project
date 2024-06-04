@@ -16,7 +16,7 @@ route.get("/finduser/:email", userauthenticate.finduser);
 route.post("/submit", form.submit);
 route.get("/getallemp", fetchuser.getallemp);
 
-route.get("/finduser/:id", updateform.finduser);
+route.get("/findemp/:id", updateform.findemp);
 route.post("/updateemp/:id", updateform.updateemp);
 route.get("/deleteemp/:id", updateform.deletemp);
 

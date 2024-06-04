@@ -7,7 +7,7 @@ import { EmployeeAttribute } from "./form.controller";
 
 // route.get(
 //     "/finduser/:id",
-const finduser = async (req: Request, res: Response) => {
+const findemp = async (req: Request, res: Response) => {
     const id: string = req.params.id;
     const query: EmployeeAttribute | null = await Employee.findOne({ where: { emp_id: id } })
     res.json({ result: query });
@@ -41,4 +41,4 @@ const deletemp = async (req: Request, res: Response) => {
     }
 };
 
-export default { finduser, updateemp, deletemp };
+export default { findemp, updateemp, deletemp };

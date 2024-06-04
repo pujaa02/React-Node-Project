@@ -41,7 +41,7 @@ route.get("/checkuser/:email/:pass", userauthenticate_1.default.checkuser);
 route.get("/finduser/:email", userauthenticate_1.default.finduser);
 route.post("/submit", form_1.default.submit);
 route.get("/getallemp", fetchuser_1.default.getallemp);
-route.get("/finduser/:id", updateform_1.default.finduser);
+route.get("/findemp/:id", updateform_1.default.findemp);
 route.post("/updateemp/:id", updateform_1.default.updateemp);
 route.get("/deleteemp/:id", updateform_1.default.deletemp);
 route.get("/getdata/:user_id", bookhome_1.default.getdata);
