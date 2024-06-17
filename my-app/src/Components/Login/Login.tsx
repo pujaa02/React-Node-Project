@@ -47,7 +47,7 @@ const Login: React.FC = () => {
       const res: string = result.data.msg;
       if (res === "Success") {
         navigate("/form");
-        // navigate("/bookmyshelf", { state: { user_id: result.data.user_id } });
+
       } else if (res === "wrong Data") {
         setError("wrong Data!!")
       } else {

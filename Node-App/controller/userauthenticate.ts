@@ -99,7 +99,7 @@ const checkuser = async (req: Request, res: Response) => {
         if (result?.dataValues) {
             const isPassSame: boolean = await bcrypt.compare(pass, result?.dataValues.password);
             if (isPassSame === true) {
-
+                
                 const token: string = jwt.sign(
                     { email: result?.dataValues.email },
                     jwtsecret as string,
